@@ -1,0 +1,727 @@
+{
+  "summary": {
+    "total": 102,
+    "killed": 60,
+    "survived": 42,
+    "timeout": 0,
+    "error": 0,
+    "tested": 102,
+    "mutation_score": 58.8235294117647
+  },
+  "results": [
+    {
+      "name": "attr.filters.x_exclude__mutmut_1",
+      "source_path": "src/attr/filters.py",
+      "status": "killed",
+      "seconds": 8.00932983297389,
+      "detail": ".........................F\n=================================== FAILURES ===================================\n__________ TestIncludeExcludeProperties.test_include_exclude_inverse ___________\n\nself = <tests.test_filters_pbt.TestIncludeExcludeProperties object at 0x1075aee90>\n\n    @given(st.integers(), st.integers(), st.integers())\n>   def test_include_exclude_inverse(self, x, y, z):\n               ^^^^^^^\n\ntests/test_filters_pbt.py:37: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \ntests/test_filters_pbt.py:48: in test_include_exclude_inverse\n    excluded = asdict(obj, filter=exclude(\"x\"))\n                                  ^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nwhat = ('x',)\n\n    def exclude(*what):\n        \"\"\"\n        Create a filter that does **not** allow *what*.\n    \n        Args:\n            what (list[type, str, attrs.Attribute]):\n                What to exclude. Can be a type, a name, or an attribute.\n    \n        Returns:\n            Callable:\n                A callable that can be passed to `attrs.asdict`'s and\n                `attrs.astuple`'s *filter* argument.\n    \n        .. versionchanged:: 23.3.0 Accept field name string as input argument\n        \"\"\"\n>       cls, names, attrs = None\n        ^^^^^^^^^^^^^^^^^\nE       TypeError: cannot unpack non-iterable NoneType object\nE       Falsifying example: test_include_exclude_inverse(\nE           # The test always failed when commented parts were varied together.\nE           self=<tests.test_filters_pbt.TestIncludeExcludeProperties object at 0x1075aee90>,\nE           x=0,  # or any other generated value\nE           y=0,  # or any other generated value\nE           z=0,  # or any other generated value\nE       )\n\nsrc/attr/filters.py:63: TypeError\n=========================== short test summary info ============================\nFAILED tests/test_filters_pbt.py::TestIncludeExcludeProperties::test_include_exclude_inverse\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 25 passed in 6.75s"
+    },
+    {
+      "name": "attr.filters.x_exclude__mutmut_2",
+      "source_path": "src/attr/filters.py",
+      "status": "killed",
+      "seconds": 3.2558974999701604,
+      "detail": ".........................F\n=================================== FAILURES ===================================\n__________ TestIncludeExcludeProperties.test_include_exclude_inverse ___________\n\nself = <tests.test_filters_pbt.TestIncludeExcludeProperties object at 0x107777910>\n\n    @given(st.integers(), st.integers(), st.integers())\n>   def test_include_exclude_inverse(self, x, y, z):\n               ^^^^^^^\n\ntests/test_filters_pbt.py:37: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \ntests/test_filters_pbt.py:48: in test_include_exclude_inverse\n    excluded = asdict(obj, filter=exclude(\"x\"))\n                                  ^^^^^^^^^^^^\nsrc/attr/filters.py:63: in exclude\n    cls, names, attrs = _split_what(None)\n                        ^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nwhat = None\n\n    def _split_what(what):\n        \"\"\"\n        Returns a tuple of `frozenset`s of classes and attributes.\n        \"\"\"\n        return (\n>           frozenset(cls for cls in what if isinstance(cls, type)),\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n            frozenset(cls for cls in what if isinstance(cls, str)),\n            frozenset(cls for cls in what if isinstance(cls, Attribute)),\n        )\nE       TypeError: 'NoneType' object is not iterable\nE       Falsifying example: test_include_exclude_inverse(\nE           self=<tests.test_filters_pbt.TestIncludeExcludeProperties object at 0x107777910>,\nE           x=0,\nE           y=0,\nE           z=0,\nE       )\n\nsrc/attr/filters.py:15: TypeError\n=========================== short test summary info ============================\nFAILED tests/test_filters_pbt.py::TestIncludeExcludeProperties::test_include_exclude_inverse\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 25 passed in 2.77s"
+    },
+    {
+      "name": "attr.filters.x_exclude__mutmut_3",
+      "source_path": "src/attr/filters.py",
+      "status": "killed",
+      "seconds": 2.4556423750473186,
+      "detail": ".........................F\n=================================== FAILURES ===================================\n__________ TestIncludeExcludeProperties.test_include_exclude_inverse ___________\n\nself = <tests.test_filters_pbt.TestIncludeExcludeProperties object at 0x1067f7850>\n\n    @given(st.integers(), st.integers(), st.integers())\n>   def test_include_exclude_inverse(self, x, y, z):\n               ^^^^^^^\n\ntests/test_filters_pbt.py:37: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <tests.test_filters_pbt.TestIncludeExcludeProperties object at 0x1067f7850>\nx = 0, y = 0, z = 0\n\n    @given(st.integers(), st.integers(), st.integers())\n    def test_include_exclude_inverse(self, x, y, z):\n        \"\"\"\n        Property: include and exclude are inverses for single attributes.\n        For a given attribute, include(attr) and exclude(attr) should\n        partition the fields.\n        \"\"\"\n        obj = SimpleClass(x, y, z)\n    \n        # Include only 'x'\n        included = asdict(obj, filter=include(\"x\"))\n        # Exclude only 'x'\n        excluded = asdict(obj, filter=exclude(\"x\"))\n    \n        # Together they should cover all fields\n>       assert set(included.keys()) | set(excluded.keys()) == {\"x\", \"y\", \"z\"}\nE       AssertionError: assert {'x'} == {'x', 'y', 'z'}\nE         \nE         Extra items in the right set:\nE         'y'\nE         'z'\nE         Use -v to get more diff\nE       Falsifying example: test_include_exclude_inverse(\nE           self=<tests.test_filters_pbt.TestIncludeExcludeProperties object at 0x1067f7850>,\nE           x=0,\nE           y=0,\nE           z=0,\nE       )\n\ntests/test_filters_pbt.py:51: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_filters_pbt.py::TestIncludeExcludeProperties::test_include_exclude_inverse\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 25 passed in 2.11s"
+    },
+    {
+      "name": "attr.filters.x_exclude__mutmut_4",
+      "source_path": "src/attr/filters.py",
+      "status": "killed",
+      "seconds": 2.381919833016582,
+      "detail": ".........................F\n=================================== FAILURES ===================================\n__________ TestIncludeExcludeProperties.test_include_exclude_inverse ___________\n\nself = <tests.test_filters_pbt.TestIncludeExcludeProperties object at 0x104177650>\n\n    @given(st.integers(), st.integers(), st.integers())\n>   def test_include_exclude_inverse(self, x, y, z):\n               ^^^^^^^\n\ntests/test_filters_pbt.py:37: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <tests.test_filters_pbt.TestIncludeExcludeProperties object at 0x104177650>\nx = 0, y = 0, z = 0\n\n    @given(st.integers(), st.integers(), st.integers())\n    def test_include_exclude_inverse(self, x, y, z):\n        \"\"\"\n        Property: include and exclude are inverses for single attributes.\n        For a given attribute, include(attr) and exclude(attr) should\n        partition the fields.\n        \"\"\"\n        obj = SimpleClass(x, y, z)\n    \n        # Include only 'x'\n        included = asdict(obj, filter=include(\"x\"))\n        # Exclude only 'x'\n        excluded = asdict(obj, filter=exclude(\"x\"))\n    \n        # Together they should cover all fields\n        assert set(included.keys()) | set(excluded.keys()) == {\"x\", \"y\", \"z\"}\n        # They should not overlap\n>       assert set(included.keys()) & set(excluded.keys()) == set()\nE       AssertionError: assert {'x'} == set()\nE         \nE         Extra items in the left set:\nE         'x'\nE         Use -v to get more diff\nE       Falsifying example: test_include_exclude_inverse(\nE           self=<tests.test_filters_pbt.TestIncludeExcludeProperties object at 0x104177650>,\nE           x=0,\nE           y=0,\nE           z=0,\nE       )\n\ntests/test_filters_pbt.py:53: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_filters_pbt.py::TestIncludeExcludeProperties::test_include_exclude_inverse\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 25 passed in 2.05s"
+    },
+    {
+      "name": "attr.filters.x_exclude__mutmut_5",
+      "source_path": "src/attr/filters.py",
+      "status": "killed",
+      "seconds": 2.4884271670598537,
+      "detail": ".........................F\n=================================== FAILURES ===================================\n__________ TestIncludeExcludeProperties.test_include_exclude_inverse ___________\n\nself = <tests.test_filters_pbt.TestIncludeExcludeProperties object at 0x103d33690>\n\n    @given(st.integers(), st.integers(), st.integers())\n>   def test_include_exclude_inverse(self, x, y, z):\n               ^^^^^^^\n\ntests/test_filters_pbt.py:37: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <tests.test_filters_pbt.TestIncludeExcludeProperties object at 0x103d33690>\nx = 0, y = 0, z = 0\n\n    @given(st.integers(), st.integers(), st.integers())\n    def test_include_exclude_inverse(self, x, y, z):\n        \"\"\"\n        Property: include and exclude are inverses for single attributes.\n        For a given attribute, include(attr) and exclude(attr) should\n        partition the fields.\n        \"\"\"\n        obj = SimpleClass(x, y, z)\n    \n        # Include only 'x'\n        included = asdict(obj, filter=include(\"x\"))\n        # Exclude only 'x'\n        excluded = asdict(obj, filter=exclude(\"x\"))\n    \n        # Together they should cover all fields\n        assert set(included.keys()) | set(excluded.keys()) == {\"x\", \"y\", \"z\"}\n        # They should not overlap\n>       assert set(included.keys()) & set(excluded.keys()) == set()\nE       AssertionError: assert {'x'} == set()\nE         \nE         Extra items in the left set:\nE         'x'\nE         Use -v to get more diff\nE       Falsifying example: test_include_exclude_inverse(\nE           self=<tests.test_filters_pbt.TestIncludeExcludeProperties object at 0x103d33690>,\nE           x=0,\nE           y=0,\nE           z=0,\nE       )\n\ntests/test_filters_pbt.py:53: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_filters_pbt.py::TestIncludeExcludeProperties::test_include_exclude_inverse\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 25 passed in 2.12s"
+    },
+    {
+      "name": "attr.filters.x_exclude__mutmut_6",
+      "source_path": "src/attr/filters.py",
+      "status": "killed",
+      "seconds": 2.497943166992627,
+      "detail": ".........................F\n=================================== FAILURES ===================================\n__________ TestIncludeExcludeProperties.test_include_exclude_inverse ___________\n\nself = <tests.test_filters_pbt.TestIncludeExcludeProperties object at 0x1054e3810>\n\n    @given(st.integers(), st.integers(), st.integers())\n>   def test_include_exclude_inverse(self, x, y, z):\n               ^^^^^^^\n\ntests/test_filters_pbt.py:37: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <tests.test_filters_pbt.TestIncludeExcludeProperties object at 0x1054e3810>\nx = 0, y = 0, z = 0\n\n    @given(st.integers(), st.integers(), st.integers())\n    def test_include_exclude_inverse(self, x, y, z):\n        \"\"\"\n        Property: include and exclude are inverses for single attributes.\n        For a given attribute, include(attr) and exclude(attr) should\n        partition the fields.\n        \"\"\"\n        obj = SimpleClass(x, y, z)\n    \n        # Include only 'x'\n        included = asdict(obj, filter=include(\"x\"))\n        # Exclude only 'x'\n        excluded = asdict(obj, filter=exclude(\"x\"))\n    \n        # Together they should cover all fields\n>       assert set(included.keys()) | set(excluded.keys()) == {\"x\", \"y\", \"z\"}\nE       AssertionError: assert {'x'} == {'x', 'y', 'z'}\nE         \nE         Extra items in the right set:\nE         'z'\nE         'y'\nE         Use -v to get more diff\nE       Falsifying example: test_include_exclude_inverse(\nE           self=<tests.test_filters_pbt.TestIncludeExcludeProperties object at 0x1054e3810>,\nE           x=0,\nE           y=0,\nE           z=0,\nE       )\n\ntests/test_filters_pbt.py:51: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_filters_pbt.py::TestIncludeExcludeProperties::test_include_exclude_inverse\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 25 passed in 2.14s"
+    },
+    {
+      "name": "attr.filters.x_exclude__mutmut_7",
+      "source_path": "src/attr/filters.py",
+      "status": "killed",
+      "seconds": 2.4010271669831127,
+      "detail": ".........................F\n=================================== FAILURES ===================================\n__________ TestIncludeExcludeProperties.test_include_exclude_inverse ___________\n\nself = <tests.test_filters_pbt.TestIncludeExcludeProperties object at 0x1034d7690>\n\n    @given(st.integers(), st.integers(), st.integers())\n>   def test_include_exclude_inverse(self, x, y, z):\n               ^^^^^^^\n\ntests/test_filters_pbt.py:37: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <tests.test_filters_pbt.TestIncludeExcludeProperties object at 0x1034d7690>\nx = 0, y = 0, z = 0\n\n    @given(st.integers(), st.integers(), st.integers())\n    def test_include_exclude_inverse(self, x, y, z):\n        \"\"\"\n        Property: include and exclude are inverses for single attributes.\n        For a given attribute, include(attr) and exclude(attr) should\n        partition the fields.\n        \"\"\"\n        obj = SimpleClass(x, y, z)\n    \n        # Include only 'x'\n        included = asdict(obj, filter=include(\"x\"))\n        # Exclude only 'x'\n        excluded = asdict(obj, filter=exclude(\"x\"))\n    \n        # Together they should cover all fields\n>       assert set(included.keys()) | set(excluded.keys()) == {\"x\", \"y\", \"z\"}\nE       AssertionError: assert {'x'} == {'x', 'y', 'z'}\nE         \nE         Extra items in the right set:\nE         'z'\nE         'y'\nE         Use -v to get more diff\nE       Falsifying example: test_include_exclude_inverse(\nE           self=<tests.test_filters_pbt.TestIncludeExcludeProperties object at 0x1034d7690>,\nE           x=0,\nE           y=0,\nE           z=0,\nE       )\n\ntests/test_filters_pbt.py:51: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_filters_pbt.py::TestIncludeExcludeProperties::test_include_exclude_inverse\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 25 passed in 2.05s"
+    },
+    {
+      "name": "attr.filters.x_exclude__mutmut_8",
+      "source_path": "src/attr/filters.py",
+      "status": "killed",
+      "seconds": 2.3946185830282047,
+      "detail": ".........................F\n=================================== FAILURES ===================================\n__________ TestIncludeExcludeProperties.test_include_exclude_inverse ___________\n\nself = <tests.test_filters_pbt.TestIncludeExcludeProperties object at 0x1051374d0>\n\n    @given(st.integers(), st.integers(), st.integers())\n>   def test_include_exclude_inverse(self, x, y, z):\n               ^^^^^^^\n\ntests/test_filters_pbt.py:37: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <tests.test_filters_pbt.TestIncludeExcludeProperties object at 0x1051374d0>\nx = 0, y = 0, z = 0\n\n    @given(st.integers(), st.integers(), st.integers())\n    def test_include_exclude_inverse(self, x, y, z):\n        \"\"\"\n        Property: include and exclude are inverses for single attributes.\n        For a given attribute, include(attr) and exclude(attr) should\n        partition the fields.\n        \"\"\"\n        obj = SimpleClass(x, y, z)\n    \n        # Include only 'x'\n        included = asdict(obj, filter=include(\"x\"))\n        # Exclude only 'x'\n        excluded = asdict(obj, filter=exclude(\"x\"))\n    \n        # Together they should cover all fields\n>       assert set(included.keys()) | set(excluded.keys()) == {\"x\", \"y\", \"z\"}\nE       AssertionError: assert {'x'} == {'x', 'y', 'z'}\nE         \nE         Extra items in the right set:\nE         'y'\nE         'z'\nE         Use -v to get more diff\nE       Falsifying example: test_include_exclude_inverse(\nE           self=<tests.test_filters_pbt.TestIncludeExcludeProperties object at 0x1051374d0>,\nE           x=0,\nE           y=0,\nE           z=0,\nE       )\n\ntests/test_filters_pbt.py:51: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_filters_pbt.py::TestIncludeExcludeProperties::test_include_exclude_inverse\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 25 passed in 2.06s"
+    },
+    {
+      "name": "attr.filters.x_include__mutmut_1",
+      "source_path": "src/attr/filters.py",
+      "status": "killed",
+      "seconds": 2.4253867090446874,
+      "detail": ".........................F\n=================================== FAILURES ===================================\n__________ TestIncludeExcludeProperties.test_include_exclude_inverse ___________\n\nself = <tests.test_filters_pbt.TestIncludeExcludeProperties object at 0x107197650>\n\n    @given(st.integers(), st.integers(), st.integers())\n>   def test_include_exclude_inverse(self, x, y, z):\n               ^^^^^^^\n\ntests/test_filters_pbt.py:37: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \ntests/test_filters_pbt.py:46: in test_include_exclude_inverse\n    included = asdict(obj, filter=include(\"x\"))\n                                  ^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nwhat = ('x',)\n\n    def include(*what):\n        \"\"\"\n        Create a filter that only allows *what*.\n    \n        Args:\n            what (list[type, str, attrs.Attribute]):\n                What to include. Can be a type, a name, or an attribute.\n    \n        Returns:\n            Callable:\n                A callable that can be passed to `attrs.asdict`'s and\n                `attrs.astuple`'s *filter* argument.\n    \n        .. versionchanged:: 23.1.0 Accept strings with field names.\n        \"\"\"\n>       cls, names, attrs = None\n        ^^^^^^^^^^^^^^^^^\nE       TypeError: cannot unpack non-iterable NoneType object\nE       Falsifying example: test_include_exclude_inverse(\nE           self=<tests.test_filters_pbt.TestIncludeExcludeProperties object at 0x107197650>,\nE           x=0,\nE           y=0,\nE           z=0,\nE       )\n\nsrc/attr/filters.py:36: TypeError\n=========================== short test summary info ============================\nFAILED tests/test_filters_pbt.py::TestIncludeExcludeProperties::test_include_exclude_inverse\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 25 passed in 2.07s"
+    },
+    {
+      "name": "attr.filters.x_include__mutmut_2",
+      "source_path": "src/attr/filters.py",
+      "status": "killed",
+      "seconds": 2.5162185000954196,
+      "detail": ".........................F\n=================================== FAILURES ===================================\n__________ TestIncludeExcludeProperties.test_include_exclude_inverse ___________\n\nself = <tests.test_filters_pbt.TestIncludeExcludeProperties object at 0x1074e3950>\n\n    @given(st.integers(), st.integers(), st.integers())\n>   def test_include_exclude_inverse(self, x, y, z):\n               ^^^^^^^\n\ntests/test_filters_pbt.py:37: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \ntests/test_filters_pbt.py:46: in test_include_exclude_inverse\n    included = asdict(obj, filter=include(\"x\"))\n                                  ^^^^^^^^^^^^\nsrc/attr/filters.py:36: in include\n    cls, names, attrs = _split_what(None)\n                        ^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nwhat = None\n\n    def _split_what(what):\n        \"\"\"\n        Returns a tuple of `frozenset`s of classes and attributes.\n        \"\"\"\n        return (\n>           frozenset(cls for cls in what if isinstance(cls, type)),\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n            frozenset(cls for cls in what if isinstance(cls, str)),\n            frozenset(cls for cls in what if isinstance(cls, Attribute)),\n        )\nE       TypeError: 'NoneType' object is not iterable\nE       Falsifying example: test_include_exclude_inverse(\nE           self=<tests.test_filters_pbt.TestIncludeExcludeProperties object at 0x1074e3950>,\nE           x=0,\nE           y=0,\nE           z=0,\nE       )\n\nsrc/attr/filters.py:15: TypeError\n=========================== short test summary info ============================\nFAILED tests/test_filters_pbt.py::TestIncludeExcludeProperties::test_include_exclude_inverse\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 25 passed in 2.15s"
+    },
+    {
+      "name": "attr.filters.x_include__mutmut_3",
+      "source_path": "src/attr/filters.py",
+      "status": "killed",
+      "seconds": 2.481406999984756,
+      "detail": ".........................F\n=================================== FAILURES ===================================\n__________ TestIncludeExcludeProperties.test_include_exclude_inverse ___________\n\nself = <tests.test_filters_pbt.TestIncludeExcludeProperties object at 0x107d7b250>\n\n    @given(st.integers(), st.integers(), st.integers())\n>   def test_include_exclude_inverse(self, x, y, z):\n               ^^^^^^^\n\ntests/test_filters_pbt.py:37: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <tests.test_filters_pbt.TestIncludeExcludeProperties object at 0x107d7b250>\nx = 0, y = 0, z = 0\n\n    @given(st.integers(), st.integers(), st.integers())\n    def test_include_exclude_inverse(self, x, y, z):\n        \"\"\"\n        Property: include and exclude are inverses for single attributes.\n        For a given attribute, include(attr) and exclude(attr) should\n        partition the fields.\n        \"\"\"\n        obj = SimpleClass(x, y, z)\n    \n        # Include only 'x'\n        included = asdict(obj, filter=include(\"x\"))\n        # Exclude only 'x'\n        excluded = asdict(obj, filter=exclude(\"x\"))\n    \n        # Together they should cover all fields\n>       assert set(included.keys()) | set(excluded.keys()) == {\"x\", \"y\", \"z\"}\nE       AssertionError: assert {'y', 'z'} == {'x', 'y', 'z'}\nE         \nE         Extra items in the right set:\nE         'x'\nE         Use -v to get more diff\nE       Falsifying example: test_include_exclude_inverse(\nE           self=<tests.test_filters_pbt.TestIncludeExcludeProperties object at 0x107d7b250>,\nE           x=0,\nE           y=0,\nE           z=0,\nE       )\n\ntests/test_filters_pbt.py:51: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_filters_pbt.py::TestIncludeExcludeProperties::test_include_exclude_inverse\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 25 passed in 2.13s"
+    },
+    {
+      "name": "attr.filters.x_include__mutmut_4",
+      "source_path": "src/attr/filters.py",
+      "status": "killed",
+      "seconds": 2.4528849999187514,
+      "detail": ".........................F\n=================================== FAILURES ===================================\n__________ TestIncludeExcludeProperties.test_include_exclude_inverse ___________\n\nself = <tests.test_filters_pbt.TestIncludeExcludeProperties object at 0x1046b7710>\n\n    @given(st.integers(), st.integers(), st.integers())\n>   def test_include_exclude_inverse(self, x, y, z):\n               ^^^^^^^\n\ntests/test_filters_pbt.py:37: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <tests.test_filters_pbt.TestIncludeExcludeProperties object at 0x1046b7710>\nx = 0, y = 0, z = 0\n\n    @given(st.integers(), st.integers(), st.integers())\n    def test_include_exclude_inverse(self, x, y, z):\n        \"\"\"\n        Property: include and exclude are inverses for single attributes.\n        For a given attribute, include(attr) and exclude(attr) should\n        partition the fields.\n        \"\"\"\n        obj = SimpleClass(x, y, z)\n    \n        # Include only 'x'\n        included = asdict(obj, filter=include(\"x\"))\n        # Exclude only 'x'\n        excluded = asdict(obj, filter=exclude(\"x\"))\n    \n        # Together they should cover all fields\n>       assert set(included.keys()) | set(excluded.keys()) == {\"x\", \"y\", \"z\"}\nE       AssertionError: assert {'y', 'z'} == {'x', 'y', 'z'}\nE         \nE         Extra items in the right set:\nE         'x'\nE         Use -v to get more diff\nE       Falsifying example: test_include_exclude_inverse(\nE           self=<tests.test_filters_pbt.TestIncludeExcludeProperties object at 0x1046b7710>,\nE           x=0,\nE           y=0,\nE           z=0,\nE       )\n\ntests/test_filters_pbt.py:51: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_filters_pbt.py::TestIncludeExcludeProperties::test_include_exclude_inverse\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 25 passed in 2.11s"
+    },
+    {
+      "name": "attr.filters.x_include__mutmut_5",
+      "source_path": "src/attr/filters.py",
+      "status": "killed",
+      "seconds": 2.4209104999899864,
+      "detail": ".........................F\n=================================== FAILURES ===================================\n__________ TestIncludeExcludeProperties.test_include_exclude_inverse ___________\n\nself = <tests.test_filters_pbt.TestIncludeExcludeProperties object at 0x106f77850>\n\n    @given(st.integers(), st.integers(), st.integers())\n>   def test_include_exclude_inverse(self, x, y, z):\n               ^^^^^^^\n\ntests/test_filters_pbt.py:37: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <tests.test_filters_pbt.TestIncludeExcludeProperties object at 0x106f77850>\nx = 0, y = 0, z = 0\n\n    @given(st.integers(), st.integers(), st.integers())\n    def test_include_exclude_inverse(self, x, y, z):\n        \"\"\"\n        Property: include and exclude are inverses for single attributes.\n        For a given attribute, include(attr) and exclude(attr) should\n        partition the fields.\n        \"\"\"\n        obj = SimpleClass(x, y, z)\n    \n        # Include only 'x'\n        included = asdict(obj, filter=include(\"x\"))\n        # Exclude only 'x'\n        excluded = asdict(obj, filter=exclude(\"x\"))\n    \n        # Together they should cover all fields\n        assert set(included.keys()) | set(excluded.keys()) == {\"x\", \"y\", \"z\"}\n        # They should not overlap\n>       assert set(included.keys()) & set(excluded.keys()) == set()\nE       AssertionError: assert {'y', 'z'} == set()\nE         \nE         Extra items in the left set:\nE         'z'\nE         'y'\nE         Use -v to get more diff\nE       Falsifying example: test_include_exclude_inverse(\nE           self=<tests.test_filters_pbt.TestIncludeExcludeProperties object at 0x106f77850>,\nE           x=0,\nE           y=0,\nE           z=0,\nE       )\n\ntests/test_filters_pbt.py:53: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_filters_pbt.py::TestIncludeExcludeProperties::test_include_exclude_inverse\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 25 passed in 2.09s"
+    },
+    {
+      "name": "attr.filters.x_include__mutmut_6",
+      "source_path": "src/attr/filters.py",
+      "status": "killed",
+      "seconds": 2.410524500068277,
+      "detail": ".........................F\n=================================== FAILURES ===================================\n__________ TestIncludeExcludeProperties.test_include_exclude_inverse ___________\n\nself = <tests.test_filters_pbt.TestIncludeExcludeProperties object at 0x107577650>\n\n    @given(st.integers(), st.integers(), st.integers())\n>   def test_include_exclude_inverse(self, x, y, z):\n               ^^^^^^^\n\ntests/test_filters_pbt.py:37: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <tests.test_filters_pbt.TestIncludeExcludeProperties object at 0x107577650>\nx = 0, y = 0, z = 0\n\n    @given(st.integers(), st.integers(), st.integers())\n    def test_include_exclude_inverse(self, x, y, z):\n        \"\"\"\n        Property: include and exclude are inverses for single attributes.\n        For a given attribute, include(attr) and exclude(attr) should\n        partition the fields.\n        \"\"\"\n        obj = SimpleClass(x, y, z)\n    \n        # Include only 'x'\n        included = asdict(obj, filter=include(\"x\"))\n        # Exclude only 'x'\n        excluded = asdict(obj, filter=exclude(\"x\"))\n    \n        # Together they should cover all fields\n>       assert set(included.keys()) | set(excluded.keys()) == {\"x\", \"y\", \"z\"}\nE       AssertionError: assert {'y', 'z'} == {'x', 'y', 'z'}\nE         \nE         Extra items in the right set:\nE         'x'\nE         Use -v to get more diff\nE       Falsifying example: test_include_exclude_inverse(\nE           self=<tests.test_filters_pbt.TestIncludeExcludeProperties object at 0x107577650>,\nE           x=0,\nE           y=0,\nE           z=0,\nE       )\n\ntests/test_filters_pbt.py:51: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_filters_pbt.py::TestIncludeExcludeProperties::test_include_exclude_inverse\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 25 passed in 2.08s"
+    },
+    {
+      "name": "attr.filters.x_include__mutmut_7",
+      "source_path": "src/attr/filters.py",
+      "status": "killed",
+      "seconds": 2.4055754580767825,
+      "detail": ".........................F\n=================================== FAILURES ===================================\n__________ TestIncludeExcludeProperties.test_include_exclude_inverse ___________\n\nself = <tests.test_filters_pbt.TestIncludeExcludeProperties object at 0x11057ba10>\n\n    @given(st.integers(), st.integers(), st.integers())\n>   def test_include_exclude_inverse(self, x, y, z):\n               ^^^^^^^\n\ntests/test_filters_pbt.py:37: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <tests.test_filters_pbt.TestIncludeExcludeProperties object at 0x11057ba10>\nx = 0, y = 0, z = 0\n\n    @given(st.integers(), st.integers(), st.integers())\n    def test_include_exclude_inverse(self, x, y, z):\n        \"\"\"\n        Property: include and exclude are inverses for single attributes.\n        For a given attribute, include(attr) and exclude(attr) should\n        partition the fields.\n        \"\"\"\n        obj = SimpleClass(x, y, z)\n    \n        # Include only 'x'\n        included = asdict(obj, filter=include(\"x\"))\n        # Exclude only 'x'\n        excluded = asdict(obj, filter=exclude(\"x\"))\n    \n        # Together they should cover all fields\n        assert set(included.keys()) | set(excluded.keys()) == {\"x\", \"y\", \"z\"}\n        # They should not overlap\n>       assert set(included.keys()) & set(excluded.keys()) == set()\nE       AssertionError: assert {'y', 'z'} == set()\nE         \nE         Extra items in the left set:\nE         'y'\nE         'z'\nE         Use -v to get more diff\nE       Falsifying example: test_include_exclude_inverse(\nE           self=<tests.test_filters_pbt.TestIncludeExcludeProperties object at 0x11057ba10>,\nE           x=0,\nE           y=0,\nE           z=0,\nE       )\n\ntests/test_filters_pbt.py:53: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_filters_pbt.py::TestIncludeExcludeProperties::test_include_exclude_inverse\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 25 passed in 2.05s"
+    },
+    {
+      "name": "attr.setters.x_convert__mutmut_1",
+      "source_path": "src/attr/setters.py",
+      "status": "killed",
+      "seconds": 4.630254792049527,
+      "detail": "...........................................F\n=================================== FAILURES ===================================\n____________________ TestSettersPipe.test_pipe_with_convert ____________________\n\nself = <tests.test_setters_pbt.TestSettersPipe object at 0x104d54150>\n\n    @given(st.integers(), st.integers())\n>   def test_pipe_with_convert(self, initial, new_value):\n               ^^^^^^^\n\ntests/test_setters_pbt.py:133: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <tests.test_setters_pbt.TestSettersPipe object at 0x104d54150>\ninitial = 0, new_value = 1\n\n    @given(st.integers(), st.integers())\n    def test_pipe_with_convert(self, initial, new_value):\n        \"\"\"\n        Property: pipe can include the convert setter.\n        \"\"\"\n    \n        def double(x):\n            return x * 2\n    \n        piped = setters.pipe(setters.convert)\n    \n        @attr.s\n        class C:\n            x = attr.ib(converter=double, on_setattr=piped)\n    \n        c = C(initial)\n        assert c.x == initial * 2\n    \n        c.x = new_value\n>       assert c.x == new_value * 2\nE       assert 1 == (1 * 2)\nE        +  where 1 = C(x=1).x\nE       Falsifying example: test_pipe_with_convert(\nE           self=<tests.test_setters_pbt.TestSettersPipe object at 0x104d54150>,\nE           initial=0,  # or any other generated value\nE           new_value=1,\nE       )\n\ntests/test_setters_pbt.py:151: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_setters_pbt.py::TestSettersPipe::test_pipe_with_convert - a...\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 43 passed in 4.13s"
+    },
+    {
+      "name": "attr.setters.x_convert__mutmut_2",
+      "source_path": "src/attr/setters.py",
+      "status": "killed",
+      "seconds": 3.545780749991536,
+      "detail": "...........................................F\n=================================== FAILURES ===================================\n____________________ TestSettersPipe.test_pipe_with_convert ____________________\n\nself = <tests.test_setters_pbt.TestSettersPipe object at 0x103140290>\n\n    @given(st.integers(), st.integers())\n>   def test_pipe_with_convert(self, initial, new_value):\n               ^^^^^^^\n\ntests/test_setters_pbt.py:133: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \ntests/test_setters_pbt.py:150: in test_pipe_with_convert\n    c.x = new_value\n    ^^^\nsrc/attr/_make.py:1188: in __setattr__\n    nval = hook(self, a, val)\n           ^^^^^^^^^^^^^^^^^^\nsrc/attr/setters.py:22: in wrapped_pipe\n    rv = setter(instance, attrib, rv)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\ninstance = C(x=0)\nattrib = Attribute(name='x', default=NOTHING, validator=None, repr=True, eq=True, eq_key=None, order=True, order_key=None, hash...103430180>, kw_only=False, inherited=False, on_setattr=<function pipe.<locals>.wrapped_pipe at 0x103433100>, alias='x')\nnew_value = 1\n\n    def convert(instance, attrib, new_value):\n        \"\"\"\n        Run *attrib*'s converter -- if it has one -- on *new_value* and return the\n        result.\n    \n        .. versionadded:: 20.1.0\n        \"\"\"\n        c = attrib.converter\n        if c:\n            # This can be removed once we drop 3.8 and use attrs.Converter instead.\n            from ._make import Converter\n    \n            if isinstance(c, Converter):\n                return c(new_value)\n    \n>           return c(new_value, instance, attrib)\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE           TypeError: TestSettersPipe.test_pipe_with_convert.<locals>.double() takes 1 positional argument but 3 were given\nE           Falsifying example: test_pipe_with_convert(\nE               self=<tests.test_setters_pbt.TestSettersPipe object at 0x103140290>,\nE               initial=0,\nE               new_value=1,\nE           )\n\nsrc/attr/setters.py:71: TypeError\n=========================== short test summary info ============================\nFAILED tests/test_setters_pbt.py::TestSettersPipe::test_pipe_with_convert - T...\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 43 passed in 3.20s"
+    },
+    {
+      "name": "attr.setters.x_convert__mutmut_3",
+      "source_path": "src/attr/setters.py",
+      "status": "killed",
+      "seconds": 3.655321417027153,
+      "detail": "...........................................F\n=================================== FAILURES ===================================\n____________________ TestSettersPipe.test_pipe_with_convert ____________________\n\nself = <tests.test_setters_pbt.TestSettersPipe object at 0x1055f0710>\n\n    @given(st.integers(), st.integers())\n>   def test_pipe_with_convert(self, initial, new_value):\n               ^^^^^^^\n\ntests/test_setters_pbt.py:133: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \ntests/test_setters_pbt.py:150: in test_pipe_with_convert\n    c.x = new_value\n    ^^^\nsrc/attr/_make.py:1188: in __setattr__\n    nval = hook(self, a, val)\n           ^^^^^^^^^^^^^^^^^^\nsrc/attr/setters.py:22: in wrapped_pipe\n    rv = setter(instance, attrib, rv)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nsrc/attr/setters.py:69: in convert\n    return c(None)\n           ^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nx = None\n\n    def double(x):\n>       return x * 2\n               ^^^^^\nE       TypeError: unsupported operand type(s) for *: 'NoneType' and 'int'\nE       Falsifying example: test_pipe_with_convert(\nE           self=<tests.test_setters_pbt.TestSettersPipe object at 0x1055f0710>,\nE           initial=0,\nE           new_value=1,\nE       )\n\ntests/test_setters_pbt.py:139: TypeError\n=========================== short test summary info ============================\nFAILED tests/test_setters_pbt.py::TestSettersPipe::test_pipe_with_convert - T...\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 43 passed in 3.29s"
+    },
+    {
+      "name": "attr.setters.x_convert__mutmut_4",
+      "source_path": "src/attr/setters.py",
+      "status": "survived",
+      "seconds": 4.370587709010579,
+      "detail": "........................................................                 [100%]\n56 passed in 4.01s"
+    },
+    {
+      "name": "attr.setters.x_convert__mutmut_5",
+      "source_path": "src/attr/setters.py",
+      "status": "survived",
+      "seconds": 4.522861999925226,
+      "detail": "........................................................                 [100%]\n56 passed in 4.15s"
+    },
+    {
+      "name": "attr.setters.x_convert__mutmut_6",
+      "source_path": "src/attr/setters.py",
+      "status": "survived",
+      "seconds": 4.443993916967884,
+      "detail": "........................................................                 [100%]\n56 passed in 4.08s"
+    },
+    {
+      "name": "attr.setters.x_convert__mutmut_7",
+      "source_path": "src/attr/setters.py",
+      "status": "survived",
+      "seconds": 4.901666916906834,
+      "detail": "........................................................                 [100%]\n56 passed in 4.46s"
+    },
+    {
+      "name": "attr.setters.x_convert__mutmut_8",
+      "source_path": "src/attr/setters.py",
+      "status": "survived",
+      "seconds": 4.931328166974708,
+      "detail": "........................................................                 [100%]\n56 passed in 4.54s"
+    },
+    {
+      "name": "attr.setters.x_convert__mutmut_9",
+      "source_path": "src/attr/setters.py",
+      "status": "survived",
+      "seconds": 5.460289041046053,
+      "detail": "........................................................                 [100%]\n56 passed in 5.10s"
+    },
+    {
+      "name": "attr.setters.x_pipe__mutmut_1",
+      "source_path": "src/attr/setters.py",
+      "status": "killed",
+      "seconds": 4.449271833058447,
+      "detail": ".......................................F\n=================================== FAILURES ===================================\n_______________ TestSettersPipe.test_pipe_single_setter_identity _______________\n\nself = <tests.test_setters_pbt.TestSettersPipe object at 0x103da2c50>\n\n    @given(st.integers())\n>   def test_pipe_single_setter_identity(self, value):\n               ^^^^^^^\n\ntests/test_setters_pbt.py:24: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <tests.test_setters_pbt.TestSettersPipe object at 0x103da2c50>, value = 0\n\n    @given(st.integers())\n    def test_pipe_single_setter_identity(self, value):\n        \"\"\"\n        Property: pipe with a single identity setter returns the value unchanged.\n        \"\"\"\n    \n        def identity_setter(instance, attrib, new_value):\n            return new_value\n    \n        piped = setters.pipe(identity_setter)\n    \n        @attr.s\n        class C:\n            x = attr.ib(on_setattr=piped)\n    \n        c = C(value)\n        assert c.x == value\n    \n        # Test setting after initialization\n        new_val = value + 1\n        c.x = new_val\n>       assert c.x == new_val\nE       assert None == 1\nE        +  where None = C(x=None).x\nE       Falsifying example: test_pipe_single_setter_identity(\nE           self=<tests.test_setters_pbt.TestSettersPipe object at 0x103da2c50>,\nE           value=0,  # or any other generated value\nE       )\n\ntests/test_setters_pbt.py:44: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_setters_pbt.py::TestSettersPipe::test_pipe_single_setter_identity\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 39 passed in 3.90s"
+    },
+    {
+      "name": "attr.setters.x_pipe__mutmut_2",
+      "source_path": "src/attr/setters.py",
+      "status": "killed",
+      "seconds": 3.9569467910332605,
+      "detail": ".......................................F\n=================================== FAILURES ===================================\n_______________ TestSettersPipe.test_pipe_single_setter_identity _______________\n\nself = <tests.test_setters_pbt.TestSettersPipe object at 0x10389aed0>\n\n    @given(st.integers())\n>   def test_pipe_single_setter_identity(self, value):\n               ^^^^^^^\n\ntests/test_setters_pbt.py:24: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <tests.test_setters_pbt.TestSettersPipe object at 0x10389aed0>, value = 0\n\n    @given(st.integers())\n    def test_pipe_single_setter_identity(self, value):\n        \"\"\"\n        Property: pipe with a single identity setter returns the value unchanged.\n        \"\"\"\n    \n        def identity_setter(instance, attrib, new_value):\n            return new_value\n    \n        piped = setters.pipe(identity_setter)\n    \n        @attr.s\n        class C:\n            x = attr.ib(on_setattr=piped)\n    \n        c = C(value)\n        assert c.x == value\n    \n        # Test setting after initialization\n        new_val = value + 1\n        c.x = new_val\n>       assert c.x == new_val\nE       assert None == 1\nE        +  where None = C(x=None).x\nE       Falsifying example: test_pipe_single_setter_identity(\nE           self=<tests.test_setters_pbt.TestSettersPipe object at 0x10389aed0>,\nE           value=0,\nE       )\n\ntests/test_setters_pbt.py:44: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_setters_pbt.py::TestSettersPipe::test_pipe_single_setter_identity\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 39 passed in 3.51s"
+    },
+    {
+      "name": "attr.setters.x_pipe__mutmut_3",
+      "source_path": "src/attr/setters.py",
+      "status": "survived",
+      "seconds": 4.565637959050946,
+      "detail": "........................................................                 [100%]\n56 passed in 4.21s"
+    },
+    {
+      "name": "attr.setters.x_pipe__mutmut_4",
+      "source_path": "src/attr/setters.py",
+      "status": "killed",
+      "seconds": 15.177560249925591,
+      "detail": "...........................................F\n=================================== FAILURES ===================================\n____________________ TestSettersPipe.test_pipe_with_convert ____________________\n\nself = <tests.test_setters_pbt.TestSettersPipe object at 0x1032f0310>\n\n    @given(st.integers(), st.integers())\n>   def test_pipe_with_convert(self, initial, new_value):\n               ^^^^^^^\n\ntests/test_setters_pbt.py:133: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \ntests/test_setters_pbt.py:150: in test_pipe_with_convert\n    c.x = new_value\n    ^^^\nsrc/attr/_make.py:1188: in __setattr__\n    nval = hook(self, a, val)\n           ^^^^^^^^^^^^^^^^^^\nsrc/attr/setters.py:22: in wrapped_pipe\n    rv = setter(instance, None, rv)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\ninstance = C(x=0), attrib = None, new_value = 0\n\n    def convert(instance, attrib, new_value):\n        \"\"\"\n        Run *attrib*'s converter -- if it has one -- on *new_value* and return the\n        result.\n    \n        .. versionadded:: 20.1.0\n        \"\"\"\n>       c = attrib.converter\n            ^^^^^^^^^^^^^^^^\nE       AttributeError: 'NoneType' object has no attribute 'converter'\nE       Falsifying example: test_pipe_with_convert(\nE           # The test always failed when commented parts were varied together.\nE           self=<tests.test_setters_pbt.TestSettersPipe object at 0x1032f0310>,\nE           initial=0,  # or any other generated value\nE           new_value=0,  # or any other generated value\nE       )\n\nsrc/attr/setters.py:63: AttributeError\n=========================== short test summary info ============================\nFAILED tests/test_setters_pbt.py::TestSettersPipe::test_pipe_with_convert - A...\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 43 passed in 14.46s"
+    },
+    {
+      "name": "attr.setters.x_pipe__mutmut_5",
+      "source_path": "src/attr/setters.py",
+      "status": "killed",
+      "seconds": 4.307285999995656,
+      "detail": ".......................................F\n=================================== FAILURES ===================================\n_______________ TestSettersPipe.test_pipe_single_setter_identity _______________\n\nself = <tests.test_setters_pbt.TestSettersPipe object at 0x1047cb210>\n\n    @given(st.integers())\n>   def test_pipe_single_setter_identity(self, value):\n               ^^^^^^^\n\ntests/test_setters_pbt.py:24: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <tests.test_setters_pbt.TestSettersPipe object at 0x1047cb210>, value = 0\n\n    @given(st.integers())\n    def test_pipe_single_setter_identity(self, value):\n        \"\"\"\n        Property: pipe with a single identity setter returns the value unchanged.\n        \"\"\"\n    \n        def identity_setter(instance, attrib, new_value):\n            return new_value\n    \n        piped = setters.pipe(identity_setter)\n    \n        @attr.s\n        class C:\n            x = attr.ib(on_setattr=piped)\n    \n        c = C(value)\n        assert c.x == value\n    \n        # Test setting after initialization\n        new_val = value + 1\n        c.x = new_val\n>       assert c.x == new_val\nE       assert None == 1\nE        +  where None = C(x=None).x\nE       Falsifying example: test_pipe_single_setter_identity(\nE           self=<tests.test_setters_pbt.TestSettersPipe object at 0x1047cb210>,\nE           value=0,  # or any other generated value\nE       )\n\ntests/test_setters_pbt.py:44: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_setters_pbt.py::TestSettersPipe::test_pipe_single_setter_identity\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 39 passed in 3.80s"
+    },
+    {
+      "name": "attr.setters.x_pipe__mutmut_6",
+      "source_path": "src/attr/setters.py",
+      "status": "killed",
+      "seconds": 3.4834077910054475,
+      "detail": ".......................................F\n=================================== FAILURES ===================================\n_______________ TestSettersPipe.test_pipe_single_setter_identity _______________\n\nself = <tests.test_setters_pbt.TestSettersPipe object at 0x1075b3010>\n\n    @given(st.integers())\n>   def test_pipe_single_setter_identity(self, value):\n               ^^^^^^^\n\ntests/test_setters_pbt.py:24: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \ntests/test_setters_pbt.py:43: in test_pipe_single_setter_identity\n    c.x = new_val\n    ^^^\nsrc/attr/_make.py:1188: in __setattr__\n    nval = hook(self, a, val)\n           ^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\ninstance = C(x=0)\nattrib = Attribute(name='x', default=NOTHING, validator=None, repr=True, eq=True, eq_key=None, order=True, order_key=None, hash...erter=None, kw_only=False, inherited=False, on_setattr=<function pipe.<locals>.wrapped_pipe at 0x107a6aca0>, alias='x')\nnew_value = 1\n\n    def wrapped_pipe(instance, attrib, new_value):\n        rv = new_value\n    \n        for setter in setters:\n>           rv = setter(attrib, rv)\n                 ^^^^^^^^^^^^^^^^^^\nE           TypeError: TestSettersPipe.test_pipe_single_setter_identity.<locals>.identity_setter() missing 1 required positional argument: 'new_value'\nE           Falsifying example: test_pipe_single_setter_identity(\nE               self=<tests.test_setters_pbt.TestSettersPipe object at 0x1075b3010>,\nE               value=0,\nE           )\n\nsrc/attr/setters.py:22: TypeError\n=========================== short test summary info ============================\nFAILED tests/test_setters_pbt.py::TestSettersPipe::test_pipe_single_setter_identity\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 39 passed in 3.12s"
+    },
+    {
+      "name": "attr.setters.x_pipe__mutmut_7",
+      "source_path": "src/attr/setters.py",
+      "status": "killed",
+      "seconds": 3.3631087080575526,
+      "detail": ".......................................F\n=================================== FAILURES ===================================\n_______________ TestSettersPipe.test_pipe_single_setter_identity _______________\n\nself = <tests.test_setters_pbt.TestSettersPipe object at 0x10749ef50>\n\n    @given(st.integers())\n>   def test_pipe_single_setter_identity(self, value):\n               ^^^^^^^\n\ntests/test_setters_pbt.py:24: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \ntests/test_setters_pbt.py:43: in test_pipe_single_setter_identity\n    c.x = new_val\n    ^^^\nsrc/attr/_make.py:1188: in __setattr__\n    nval = hook(self, a, val)\n           ^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\ninstance = C(x=0)\nattrib = Attribute(name='x', default=NOTHING, validator=None, repr=True, eq=True, eq_key=None, order=True, order_key=None, hash...erter=None, kw_only=False, inherited=False, on_setattr=<function pipe.<locals>.wrapped_pipe at 0x10754ff60>, alias='x')\nnew_value = 1\n\n    def wrapped_pipe(instance, attrib, new_value):\n        rv = new_value\n    \n        for setter in setters:\n>           rv = setter(instance, rv)\n                 ^^^^^^^^^^^^^^^^^^^^\nE           TypeError: TestSettersPipe.test_pipe_single_setter_identity.<locals>.identity_setter() missing 1 required positional argument: 'new_value'\nE           Falsifying example: test_pipe_single_setter_identity(\nE               self=<tests.test_setters_pbt.TestSettersPipe object at 0x10749ef50>,\nE               value=0,\nE           )\n\nsrc/attr/setters.py:22: TypeError\n=========================== short test summary info ============================\nFAILED tests/test_setters_pbt.py::TestSettersPipe::test_pipe_single_setter_identity\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 39 passed in 3.02s"
+    },
+    {
+      "name": "attr.setters.x_pipe__mutmut_8",
+      "source_path": "src/attr/setters.py",
+      "status": "killed",
+      "seconds": 3.1102038339013234,
+      "detail": ".......................................F\n=================================== FAILURES ===================================\n_______________ TestSettersPipe.test_pipe_single_setter_identity _______________\n\nself = <tests.test_setters_pbt.TestSettersPipe object at 0x105f9efd0>\n\n    @given(st.integers())\n>   def test_pipe_single_setter_identity(self, value):\n               ^^^^^^^\n\ntests/test_setters_pbt.py:24: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \ntests/test_setters_pbt.py:43: in test_pipe_single_setter_identity\n    c.x = new_val\n    ^^^\nsrc/attr/_make.py:1188: in __setattr__\n    nval = hook(self, a, val)\n           ^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\ninstance = C(x=0)\nattrib = Attribute(name='x', default=NOTHING, validator=None, repr=True, eq=True, eq_key=None, order=True, order_key=None, hash...erter=None, kw_only=False, inherited=False, on_setattr=<function pipe.<locals>.wrapped_pipe at 0x1060c0f40>, alias='x')\nnew_value = 1\n\n    def wrapped_pipe(instance, attrib, new_value):\n        rv = new_value\n    \n        for setter in setters:\n>           rv = setter(instance, attrib, )\n                 ^^^^^^^^^^^^^^^^^^^^^^^^^^\nE           TypeError: TestSettersPipe.test_pipe_single_setter_identity.<locals>.identity_setter() missing 1 required positional argument: 'new_value'\nE           Falsifying example: test_pipe_single_setter_identity(\nE               self=<tests.test_setters_pbt.TestSettersPipe object at 0x105f9efd0>,\nE               value=0,\nE           )\n\nsrc/attr/setters.py:22: TypeError\n=========================== short test summary info ============================\nFAILED tests/test_setters_pbt.py::TestSettersPipe::test_pipe_single_setter_identity\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 39 passed in 2.78s"
+    },
+    {
+      "name": "attr.setters.x_validate__mutmut_1",
+      "source_path": "src/attr/setters.py",
+      "status": "killed",
+      "seconds": 3.8271456660004333,
+      "detail": "............................................F\n=================================== FAILURES ===================================\n___________________ TestSettersPipe.test_pipe_with_validate ____________________\n\nself = <tests.test_setters_pbt.TestSettersPipe object at 0x105d5c710>\n\n    @given(st.integers(min_value=0, max_value=100))\n>   def test_pipe_with_validate(self, value):\n               ^^^^^^^\n\ntests/test_setters_pbt.py:154: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <tests.test_setters_pbt.TestSettersPipe object at 0x105d5c710>, value = 0\n\n    @given(st.integers(min_value=0, max_value=100))\n    def test_pipe_with_validate(self, value):\n        \"\"\"\n        Property: pipe can include the validate setter.\n        \"\"\"\n        piped = setters.pipe(setters.validate)\n    \n        @attr.s\n        class C:\n            x = attr.ib(validator=attr.validators.ge(0), on_setattr=piped)\n    \n        # Valid value should work\n        c = C(value)\n        assert c.x == value\n    \n        # Invalid value should raise\n>       with pytest.raises(ValueError):\nE       Failed: DID NOT RAISE <class 'ValueError'>\nE       Falsifying example: test_pipe_with_validate(\nE           self=<tests.test_setters_pbt.TestSettersPipe object at 0x105d5c710>,\nE           value=0,  # or any other generated value\nE       )\n\ntests/test_setters_pbt.py:169: Failed\n=========================== short test summary info ============================\nFAILED tests/test_setters_pbt.py::TestSettersPipe::test_pipe_with_validate - ...\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 44 passed in 3.47s"
+    },
+    {
+      "name": "attr.setters.x_validate__mutmut_10",
+      "source_path": "src/attr/setters.py",
+      "status": "killed",
+      "seconds": 3.4620904580224305,
+      "detail": "............................................F\n=================================== FAILURES ===================================\n___________________ TestSettersPipe.test_pipe_with_validate ____________________\n\nself = <tests.test_setters_pbt.TestSettersPipe object at 0x105d188d0>\n\n    @given(st.integers(min_value=0, max_value=100))\n>   def test_pipe_with_validate(self, value):\n               ^^^^^^^\n\ntests/test_setters_pbt.py:154: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \ntests/test_setters_pbt.py:170: in test_pipe_with_validate\n    c.x = -1\n    ^^^\nsrc/attr/_make.py:1188: in __setattr__\n    nval = hook(self, a, val)\n           ^^^^^^^^^^^^^^^^^^\nsrc/attr/setters.py:22: in wrapped_pipe\n    rv = setter(instance, attrib, rv)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\ninstance = C(x=0)\nattrib = Attribute(name='x', default=NOTHING, validator=<Validator for x >= 0>, repr=True, eq=True, eq_key=None, order=True, or...erter=None, kw_only=False, inherited=False, on_setattr=<function pipe.<locals>.wrapped_pipe at 0x106f7c0e0>, alias='x')\nnew_value = -1\n\n    def validate(instance, attrib, new_value):\n        \"\"\"\n        Run *attrib*'s validator on *new_value* if it has one.\n    \n        .. versionadded:: 20.1.0\n        \"\"\"\n        if _config._run_validators is False:\n            return new_value\n    \n        v = attrib.validator\n        if not v:\n            return new_value\n    \n>       v(instance, attrib, )\nE       TypeError: _NumberValidator.__call__() missing 1 required positional argument: 'value'\nE       Falsifying example: test_pipe_with_validate(\nE           self=<tests.test_setters_pbt.TestSettersPipe object at 0x105d188d0>,\nE           value=0,\nE       )\n\nsrc/attr/setters.py:51: TypeError\n=========================== short test summary info ============================\nFAILED tests/test_setters_pbt.py::TestSettersPipe::test_pipe_with_validate - ...\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 44 passed in 3.13s"
+    },
+    {
+      "name": "attr.setters.x_validate__mutmut_2",
+      "source_path": "src/attr/setters.py",
+      "status": "killed",
+      "seconds": 3.215875625028275,
+      "detail": "............................................F\n=================================== FAILURES ===================================\n___________________ TestSettersPipe.test_pipe_with_validate ____________________\n\nself = <tests.test_setters_pbt.TestSettersPipe object at 0x1035a4c50>\n\n    @given(st.integers(min_value=0, max_value=100))\n>   def test_pipe_with_validate(self, value):\n               ^^^^^^^\n\ntests/test_setters_pbt.py:154: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <tests.test_setters_pbt.TestSettersPipe object at 0x1035a4c50>, value = 0\n\n    @given(st.integers(min_value=0, max_value=100))\n    def test_pipe_with_validate(self, value):\n        \"\"\"\n        Property: pipe can include the validate setter.\n        \"\"\"\n        piped = setters.pipe(setters.validate)\n    \n        @attr.s\n        class C:\n            x = attr.ib(validator=attr.validators.ge(0), on_setattr=piped)\n    \n        # Valid value should work\n        c = C(value)\n        assert c.x == value\n    \n        # Invalid value should raise\n>       with pytest.raises(ValueError):\nE       Failed: DID NOT RAISE <class 'ValueError'>\nE       Falsifying example: test_pipe_with_validate(\nE           self=<tests.test_setters_pbt.TestSettersPipe object at 0x1035a4c50>,\nE           value=0,\nE       )\n\ntests/test_setters_pbt.py:169: Failed\n=========================== short test summary info ============================\nFAILED tests/test_setters_pbt.py::TestSettersPipe::test_pipe_with_validate - ...\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 44 passed in 2.90s"
+    },
+    {
+      "name": "attr.setters.x_validate__mutmut_3",
+      "source_path": "src/attr/setters.py",
+      "status": "killed",
+      "seconds": 3.211088874959387,
+      "detail": "............................................F\n=================================== FAILURES ===================================\n___________________ TestSettersPipe.test_pipe_with_validate ____________________\n\nself = <tests.test_setters_pbt.TestSettersPipe object at 0x104da45d0>\n\n    @given(st.integers(min_value=0, max_value=100))\n>   def test_pipe_with_validate(self, value):\n               ^^^^^^^\n\ntests/test_setters_pbt.py:154: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <tests.test_setters_pbt.TestSettersPipe object at 0x104da45d0>, value = 0\n\n    @given(st.integers(min_value=0, max_value=100))\n    def test_pipe_with_validate(self, value):\n        \"\"\"\n        Property: pipe can include the validate setter.\n        \"\"\"\n        piped = setters.pipe(setters.validate)\n    \n        @attr.s\n        class C:\n            x = attr.ib(validator=attr.validators.ge(0), on_setattr=piped)\n    \n        # Valid value should work\n        c = C(value)\n        assert c.x == value\n    \n        # Invalid value should raise\n>       with pytest.raises(ValueError):\nE       Failed: DID NOT RAISE <class 'ValueError'>\nE       Falsifying example: test_pipe_with_validate(\nE           self=<tests.test_setters_pbt.TestSettersPipe object at 0x104da45d0>,\nE           value=0,\nE       )\n\ntests/test_setters_pbt.py:169: Failed\n=========================== short test summary info ============================\nFAILED tests/test_setters_pbt.py::TestSettersPipe::test_pipe_with_validate - ...\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 44 passed in 2.90s"
+    },
+    {
+      "name": "attr.setters.x_validate__mutmut_4",
+      "source_path": "src/attr/setters.py",
+      "status": "killed",
+      "seconds": 3.3574674170231447,
+      "detail": "............................................F\n=================================== FAILURES ===================================\n___________________ TestSettersPipe.test_pipe_with_validate ____________________\n\nself = <tests.test_setters_pbt.TestSettersPipe object at 0x1052e4910>\n\n    @given(st.integers(min_value=0, max_value=100))\n>   def test_pipe_with_validate(self, value):\n               ^^^^^^^\n\ntests/test_setters_pbt.py:154: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <tests.test_setters_pbt.TestSettersPipe object at 0x1052e4910>, value = 0\n\n    @given(st.integers(min_value=0, max_value=100))\n    def test_pipe_with_validate(self, value):\n        \"\"\"\n        Property: pipe can include the validate setter.\n        \"\"\"\n        piped = setters.pipe(setters.validate)\n    \n        @attr.s\n        class C:\n            x = attr.ib(validator=attr.validators.ge(0), on_setattr=piped)\n    \n        # Valid value should work\n        c = C(value)\n        assert c.x == value\n    \n        # Invalid value should raise\n>       with pytest.raises(ValueError):\nE       Failed: DID NOT RAISE <class 'ValueError'>\nE       Falsifying example: test_pipe_with_validate(\nE           self=<tests.test_setters_pbt.TestSettersPipe object at 0x1052e4910>,\nE           value=0,\nE       )\n\ntests/test_setters_pbt.py:169: Failed\n=========================== short test summary info ============================\nFAILED tests/test_setters_pbt.py::TestSettersPipe::test_pipe_with_validate - ...\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 44 passed in 3.02s"
+    },
+    {
+      "name": "attr.setters.x_validate__mutmut_5",
+      "source_path": "src/attr/setters.py",
+      "status": "survived",
+      "seconds": 3.950146457995288,
+      "detail": "........................................................                 [100%]\n56 passed in 3.63s"
+    },
+    {
+      "name": "attr.setters.x_validate__mutmut_6",
+      "source_path": "src/attr/setters.py",
+      "status": "killed",
+      "seconds": 5.680394082912244,
+      "detail": "............................................F\n=================================== FAILURES ===================================\n___________________ TestSettersPipe.test_pipe_with_validate ____________________\n\nself = <tests.test_setters_pbt.TestSettersPipe object at 0x106a688d0>\n\n    @given(st.integers(min_value=0, max_value=100))\n>   def test_pipe_with_validate(self, value):\n               ^^^^^^^\n\ntests/test_setters_pbt.py:154: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \ntests/test_setters_pbt.py:170: in test_pipe_with_validate\n    c.x = -1\n    ^^^\nsrc/attr/_make.py:1188: in __setattr__\n    nval = hook(self, a, val)\n           ^^^^^^^^^^^^^^^^^^\nsrc/attr/setters.py:22: in wrapped_pipe\n    rv = setter(instance, attrib, rv)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nsrc/attr/setters.py:51: in validate\n    v(instance, None, new_value)\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <Validator for x >= 0>, inst = C(x=0), attr = None, value = -1\n\n    def __call__(self, inst, attr, value):\n        \"\"\"\n        We use a callable class to be able to change the ``__repr__``.\n        \"\"\"\n        if not self.compare_func(value, self.bound):\n>           msg = f\"'{attr.name}' must be {self.compare_op} {self.bound}: {value}\"\n                      ^^^^^^^^^\nE           AttributeError: 'NoneType' object has no attribute 'name'\nE           Falsifying example: test_pipe_with_validate(\nE               self=<tests.test_setters_pbt.TestSettersPipe object at 0x106a688d0>,\nE               value=0,  # or any other generated value\nE           )\n\nsrc/attr/validators.py:471: AttributeError\n=========================== short test summary info ============================\nFAILED tests/test_setters_pbt.py::TestSettersPipe::test_pipe_with_validate - ...\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 44 passed in 5.29s"
+    },
+    {
+      "name": "attr.setters.x_validate__mutmut_7",
+      "source_path": "src/attr/setters.py",
+      "status": "killed",
+      "seconds": 3.5130677910055965,
+      "detail": "............................................F\n=================================== FAILURES ===================================\n___________________ TestSettersPipe.test_pipe_with_validate ____________________\n\nself = <tests.test_setters_pbt.TestSettersPipe object at 0x106080750>\n\n    @given(st.integers(min_value=0, max_value=100))\n>   def test_pipe_with_validate(self, value):\n               ^^^^^^^\n\ntests/test_setters_pbt.py:154: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \ntests/test_setters_pbt.py:170: in test_pipe_with_validate\n    c.x = -1\n    ^^^\nsrc/attr/_make.py:1188: in __setattr__\n    nval = hook(self, a, val)\n           ^^^^^^^^^^^^^^^^^^\nsrc/attr/setters.py:22: in wrapped_pipe\n    rv = setter(instance, attrib, rv)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nsrc/attr/setters.py:51: in validate\n    v(instance, attrib, None)\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <Validator for x >= 0>, inst = C(x=0)\nattr = Attribute(name='x', default=NOTHING, validator=<Validator for x >= 0>, repr=True, eq=True, eq_key=None, order=True, or...erter=None, kw_only=False, inherited=False, on_setattr=<function pipe.<locals>.wrapped_pipe at 0x10724be20>, alias='x')\nvalue = None\n\n    def __call__(self, inst, attr, value):\n        \"\"\"\n        We use a callable class to be able to change the ``__repr__``.\n        \"\"\"\n>       if not self.compare_func(value, self.bound):\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       TypeError: '>=' not supported between instances of 'NoneType' and 'int'\nE       Falsifying example: test_pipe_with_validate(\nE           self=<tests.test_setters_pbt.TestSettersPipe object at 0x106080750>,\nE           value=0,\nE       )\n\nsrc/attr/validators.py:470: TypeError\n=========================== short test summary info ============================\nFAILED tests/test_setters_pbt.py::TestSettersPipe::test_pipe_with_validate - ...\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 44 passed in 3.11s"
+    },
+    {
+      "name": "attr.setters.x_validate__mutmut_8",
+      "source_path": "src/attr/setters.py",
+      "status": "killed",
+      "seconds": 3.3211618749191985,
+      "detail": "............................................F\n=================================== FAILURES ===================================\n___________________ TestSettersPipe.test_pipe_with_validate ____________________\n\nself = <tests.test_setters_pbt.TestSettersPipe object at 0x1032cc8d0>\n\n    @given(st.integers(min_value=0, max_value=100))\n>   def test_pipe_with_validate(self, value):\n               ^^^^^^^\n\ntests/test_setters_pbt.py:154: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \ntests/test_setters_pbt.py:170: in test_pipe_with_validate\n    c.x = -1\n    ^^^\nsrc/attr/_make.py:1188: in __setattr__\n    nval = hook(self, a, val)\n           ^^^^^^^^^^^^^^^^^^\nsrc/attr/setters.py:22: in wrapped_pipe\n    rv = setter(instance, attrib, rv)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\ninstance = C(x=0)\nattrib = Attribute(name='x', default=NOTHING, validator=<Validator for x >= 0>, repr=True, eq=True, eq_key=None, order=True, or...erter=None, kw_only=False, inherited=False, on_setattr=<function pipe.<locals>.wrapped_pipe at 0x1034c3560>, alias='x')\nnew_value = -1\n\n    def validate(instance, attrib, new_value):\n        \"\"\"\n        Run *attrib*'s validator on *new_value* if it has one.\n    \n        .. versionadded:: 20.1.0\n        \"\"\"\n        if _config._run_validators is False:\n            return new_value\n    \n        v = attrib.validator\n        if not v:\n            return new_value\n    \n>       v(attrib, new_value)\nE       TypeError: _NumberValidator.__call__() missing 1 required positional argument: 'value'\nE       Falsifying example: test_pipe_with_validate(\nE           self=<tests.test_setters_pbt.TestSettersPipe object at 0x1032cc8d0>,\nE           value=0,\nE       )\n\nsrc/attr/setters.py:51: TypeError\n=========================== short test summary info ============================\nFAILED tests/test_setters_pbt.py::TestSettersPipe::test_pipe_with_validate - ...\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 44 passed in 3.02s"
+    },
+    {
+      "name": "attr.setters.x_validate__mutmut_9",
+      "source_path": "src/attr/setters.py",
+      "status": "killed",
+      "seconds": 3.5025134589523077,
+      "detail": "............................................F\n=================================== FAILURES ===================================\n___________________ TestSettersPipe.test_pipe_with_validate ____________________\n\nself = <tests.test_setters_pbt.TestSettersPipe object at 0x107224e10>\n\n    @given(st.integers(min_value=0, max_value=100))\n>   def test_pipe_with_validate(self, value):\n               ^^^^^^^\n\ntests/test_setters_pbt.py:154: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \ntests/test_setters_pbt.py:170: in test_pipe_with_validate\n    c.x = -1\n    ^^^\nsrc/attr/_make.py:1188: in __setattr__\n    nval = hook(self, a, val)\n           ^^^^^^^^^^^^^^^^^^\nsrc/attr/setters.py:22: in wrapped_pipe\n    rv = setter(instance, attrib, rv)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\ninstance = C(x=0)\nattrib = Attribute(name='x', default=NOTHING, validator=<Validator for x >= 0>, repr=True, eq=True, eq_key=None, order=True, or...erter=None, kw_only=False, inherited=False, on_setattr=<function pipe.<locals>.wrapped_pipe at 0x10748a340>, alias='x')\nnew_value = -1\n\n    def validate(instance, attrib, new_value):\n        \"\"\"\n        Run *attrib*'s validator on *new_value* if it has one.\n    \n        .. versionadded:: 20.1.0\n        \"\"\"\n        if _config._run_validators is False:\n            return new_value\n    \n        v = attrib.validator\n        if not v:\n            return new_value\n    \n>       v(instance, new_value)\nE       TypeError: _NumberValidator.__call__() missing 1 required positional argument: 'value'\nE       Falsifying example: test_pipe_with_validate(\nE           self=<tests.test_setters_pbt.TestSettersPipe object at 0x107224e10>,\nE           value=0,\nE       )\n\nsrc/attr/setters.py:51: TypeError\n=========================== short test summary info ============================\nFAILED tests/test_setters_pbt.py::TestSettersPipe::test_pipe_with_validate - ...\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 44 passed in 3.19s"
+    },
+    {
+      "name": "attr.validators.x_deep_iterable__mutmut_1",
+      "source_path": "src/attr/validators.py",
+      "status": "survived",
+      "seconds": 4.224562208051793,
+      "detail": "........................................................                 [100%]\n56 passed in 3.88s"
+    },
+    {
+      "name": "attr.validators.x_deep_iterable__mutmut_2",
+      "source_path": "src/attr/validators.py",
+      "status": "survived",
+      "seconds": 4.376208791043609,
+      "detail": "........................................................                 [100%]\n56 passed in 4.02s"
+    },
+    {
+      "name": "attr.validators.x_deep_iterable__mutmut_3",
+      "source_path": "src/attr/validators.py",
+      "status": "killed",
+      "seconds": 0.3082209168933332,
+      "detail": "ImportError while loading conftest '/Users/thanhtoantnt/ccode/pbt-benchmark/attrs/tests/conftest.py'.\ntests/conftest.py:9: in <module>\n    from attr._compat import PY_3_10_PLUS, PY_3_14_PLUS\nsrc/attr/__init__.py:10: in <module>\n    from . import converters, exceptions, filters, setters, validators\nsrc/attr/validators.py:635: in <module>\n    class _NotValidator:\nsrc/attr/validators.py:644: in _NotValidator\n    validator=deep_iterable(\nsrc/attr/validators.py:384: in deep_iterable\n    return _DeepIterable(None, iterable_validator)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nsrc/attr/validators.py:305: in __call__\n    raise NotCallableError(\nE   attr.exceptions.NotCallableError: 'member_validator' must be callable (got None that is a <class 'NoneType'>)."
+    },
+    {
+      "name": "attr.validators.x_deep_iterable__mutmut_4",
+      "source_path": "src/attr/validators.py",
+      "status": "survived",
+      "seconds": 4.169390125083737,
+      "detail": "........................................................                 [100%]\n56 passed in 3.82s"
+    },
+    {
+      "name": "attr.validators.x_deep_iterable__mutmut_5",
+      "source_path": "src/attr/validators.py",
+      "status": "killed",
+      "seconds": 3.736211208975874,
+      "detail": "...................F\n=================================== FAILURES ===================================\n_________________ TestNotValidator.test_not_inverts_validator __________________\n\nself = <tests.test_validators_pbt.TestNotValidator object at 0x106aabcd0>\n\n    @given(st.integers())\n>   def test_not_inverts_validator(self, value):\n               ^^^^^^^\n\ntests/test_validators_pbt.py:420: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \ntests/test_validators_pbt.py:427: in test_not_inverts_validator\n    negative_validator = not_(positive_validator)\n                         ^^^^^^^^^^^^^^^^^^^^^^^^\nsrc/attr/validators.py:704: in not_\n    return _NotValidator(validator, msg, exc_types)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n<attrs generated methods attr.validators._NotValidator>:21: in __init__\n    __attr_validator_exc_types(self, __attr_exc_types, self.exc_types)\nsrc/attr/validators.py:347: in __call__\n    self.member_validator(inst, attr, member)\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <instance_of validator for type <class 'tuple'>>\ninst = <not_ validator wrapping <Validator for x >= 0>, capturing (<class 'ValueError'>, <class 'TypeError'>)>\nattr = Attribute(name='exc_types', default=NOTHING, validator=<deep_iterable validator for iterables of <instance_of validato...tadata=mappingproxy({}), type=None, converter=None, kw_only=False, inherited=False, on_setattr=None, alias='exc_types')\nvalue = <class 'ValueError'>\n\n    def __call__(self, inst, attr, value):\n        \"\"\"\n        We use a callable class to be able to change the ``__repr__``.\n        \"\"\"\n        if not isinstance(value, self.type):\n            msg = f\"'{attr.name}' must be {self.type!r} (got {value!r} that is a {value.__class__!r}).\"\n>           raise TypeError(\n                msg,\n                attr,\n                self.type,\n                value,\n            )\nE           TypeError: (\"'exc_types' must be <class 'tuple'> (got <class 'ValueError'> that is a <class 'type'>).\", Attribute(name='exc_types', default=NOTHING, validator=<deep_iterable validator for iterables of <instance_of validator for type <class 'tuple'>>>, repr=True, eq=True, eq_key=None, order=True, order_key=None, hash=None, init=True, metadata=mappingproxy({}), type=None, converter=None, kw_only=False, inherited=False, on_setattr=None, alias='exc_types'), <class 'tuple'>, <class 'ValueError'>)\nE           Falsifying example: test_not_inverts_validator(\nE               self=<tests.test_validators_pbt.TestNotValidator object at 0x106aabcd0>,\nE               value=0,  # or any other generated value\nE           )\n\nsrc/attr/validators.py:102: TypeError\n=========================== short test summary info ============================\nFAILED tests/test_validators_pbt.py::TestNotValidator::test_not_inverts_validator\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 19 passed in 3.35s"
+    },
+    {
+      "name": "attr.validators.x_deep_iterable__mutmut_6",
+      "source_path": "src/attr/validators.py",
+      "status": "survived",
+      "seconds": 4.053726542042568,
+      "detail": "........................................................                 [100%]\n56 passed in 3.71s"
+    },
+    {
+      "name": "attr.validators.x_deep_mapping__mutmut_1",
+      "source_path": "src/attr/validators.py",
+      "status": "survived",
+      "seconds": 4.204949375009164,
+      "detail": "........................................................                 [100%]\n56 passed in 3.86s"
+    },
+    {
+      "name": "attr.validators.x_deep_mapping__mutmut_10",
+      "source_path": "src/attr/validators.py",
+      "status": "survived",
+      "seconds": 4.046409459086135,
+      "detail": "........................................................                 [100%]\n56 passed in 3.73s"
+    },
+    {
+      "name": "attr.validators.x_deep_mapping__mutmut_11",
+      "source_path": "src/attr/validators.py",
+      "status": "survived",
+      "seconds": 4.134906750055961,
+      "detail": "........................................................                 [100%]\n56 passed in 3.79s"
+    },
+    {
+      "name": "attr.validators.x_deep_mapping__mutmut_12",
+      "source_path": "src/attr/validators.py",
+      "status": "survived",
+      "seconds": 4.136921375058591,
+      "detail": "........................................................                 [100%]\n56 passed in 3.79s"
+    },
+    {
+      "name": "attr.validators.x_deep_mapping__mutmut_13",
+      "source_path": "src/attr/validators.py",
+      "status": "survived",
+      "seconds": 4.219505290966481,
+      "detail": "........................................................                 [100%]\n56 passed in 3.88s"
+    },
+    {
+      "name": "attr.validators.x_deep_mapping__mutmut_14",
+      "source_path": "src/attr/validators.py",
+      "status": "survived",
+      "seconds": 4.269513208069839,
+      "detail": "........................................................                 [100%]\n56 passed in 3.84s"
+    },
+    {
+      "name": "attr.validators.x_deep_mapping__mutmut_15",
+      "source_path": "src/attr/validators.py",
+      "status": "survived",
+      "seconds": 4.53712704195641,
+      "detail": "........................................................                 [100%]\n56 passed in 4.12s"
+    },
+    {
+      "name": "attr.validators.x_deep_mapping__mutmut_16",
+      "source_path": "src/attr/validators.py",
+      "status": "survived",
+      "seconds": 4.137238124967553,
+      "detail": "........................................................                 [100%]\n56 passed in 3.80s"
+    },
+    {
+      "name": "attr.validators.x_deep_mapping__mutmut_17",
+      "source_path": "src/attr/validators.py",
+      "status": "survived",
+      "seconds": 4.399737625033595,
+      "detail": "........................................................                 [100%]\n56 passed in 4.05s"
+    },
+    {
+      "name": "attr.validators.x_deep_mapping__mutmut_2",
+      "source_path": "src/attr/validators.py",
+      "status": "survived",
+      "seconds": 4.128036125097424,
+      "detail": "........................................................                 [100%]\n56 passed in 3.79s"
+    },
+    {
+      "name": "attr.validators.x_ge__mutmut_1",
+      "source_path": "src/attr/validators.py",
+      "status": "killed",
+      "seconds": 5.001692333025858,
+      "detail": "...F\n=================================== FAILURES ===================================\n_______ TestComparisonValidatorProperties.test_ge_validator_correctness ________\n\nself = <tests.test_validators_pbt.TestComparisonValidatorProperties object at 0x106c16390>\n\n    @given(st.integers(), st.integers())\n>   def test_ge_validator_correctness(self, bound, value):\n               ^^^^^^^\n\ntests/test_validators_pbt.py:94: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \ntests/test_validators_pbt.py:106: in test_ge_validator_correctness\n    C(value)\n<attrs generated methods tests.test_validators_pbt.TestComparisonValidatorProperties.test_ge_validator_correctness.<locals>.C>:25: in __init__\n    __attr_validator_x(self, __attr_x, self.x)\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <Validator for x >= None>, inst = C(x=0)\nattr = Attribute(name='x', default=NOTHING, validator=<Validator for x >= None>, repr=True, eq=True, eq_key=None, order=True,...True, metadata=mappingproxy({}), type=None, converter=None, kw_only=False, inherited=False, on_setattr=None, alias='x')\nvalue = 0\n\n    def __call__(self, inst, attr, value):\n        \"\"\"\n        We use a callable class to be able to change the ``__repr__``.\n        \"\"\"\n>       if not self.compare_func(value, self.bound):\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       TypeError: '>=' not supported between instances of 'int' and 'NoneType'\nE       Falsifying example: test_ge_validator_correctness(\nE           # The test always failed when commented parts were varied together.\nE           self=<tests.test_validators_pbt.TestComparisonValidatorProperties object at 0x106c16390>,\nE           bound=0,  # or any other generated value\nE           value=0,  # or any other generated value\nE       )\n\nsrc/attr/validators.py:470: TypeError\n=========================== short test summary info ============================\nFAILED tests/test_validators_pbt.py::TestComparisonValidatorProperties::test_ge_validator_correctness\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 3 passed in 4.33s"
+    },
+    {
+      "name": "attr.validators.x_ge__mutmut_2",
+      "source_path": "src/attr/validators.py",
+      "status": "survived",
+      "seconds": 4.179706917027943,
+      "detail": "........................................................                 [100%]\n56 passed in 3.82s"
+    },
+    {
+      "name": "attr.validators.x_ge__mutmut_3",
+      "source_path": "src/attr/validators.py",
+      "status": "killed",
+      "seconds": 5.308675625012256,
+      "detail": "...F\n=================================== FAILURES ===================================\n_______ TestComparisonValidatorProperties.test_ge_validator_correctness ________\n\nself = <tests.test_validators_pbt.TestComparisonValidatorProperties object at 0x104e4e210>\n\n    @given(st.integers(), st.integers())\n>   def test_ge_validator_correctness(self, bound, value):\n               ^^^^^^^\n\ntests/test_validators_pbt.py:94: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \ntests/test_validators_pbt.py:106: in test_ge_validator_correctness\n    C(value)\n<attrs generated methods tests.test_validators_pbt.TestComparisonValidatorProperties.test_ge_validator_correctness.<locals>.C>:25: in __init__\n    __attr_validator_x(self, __attr_x, self.x)\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <Validator for x >= 0>, inst = C(x=0)\nattr = Attribute(name='x', default=NOTHING, validator=<Validator for x >= 0>, repr=True, eq=True, eq_key=None, order=True, or...True, metadata=mappingproxy({}), type=None, converter=None, kw_only=False, inherited=False, on_setattr=None, alias='x')\nvalue = 0\n\n    def __call__(self, inst, attr, value):\n        \"\"\"\n        We use a callable class to be able to change the ``__repr__``.\n        \"\"\"\n>       if not self.compare_func(value, self.bound):\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       TypeError: 'NoneType' object is not callable\nE       Falsifying example: test_ge_validator_correctness(\nE           # The test always failed when commented parts were varied together.\nE           self=<tests.test_validators_pbt.TestComparisonValidatorProperties object at 0x104e4e210>,\nE           bound=0,  # or any other generated value\nE           value=0,  # or any other generated value\nE       )\n\nsrc/attr/validators.py:470: TypeError\n=========================== short test summary info ============================\nFAILED tests/test_validators_pbt.py::TestComparisonValidatorProperties::test_ge_validator_correctness\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 3 passed in 4.61s"
+    },
+    {
+      "name": "attr.validators.x_ge__mutmut_4",
+      "source_path": "src/attr/validators.py",
+      "status": "killed",
+      "seconds": 0.6407405419740826,
+      "detail": "...F\n=================================== FAILURES ===================================\n_______ TestComparisonValidatorProperties.test_ge_validator_correctness ________\n\nself = <tests.test_validators_pbt.TestComparisonValidatorProperties object at 0x104036390>\n\n    @given(st.integers(), st.integers())\n>   def test_ge_validator_correctness(self, bound, value):\n               ^^^^^^^\n\ntests/test_validators_pbt.py:94: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \ntests/test_validators_pbt.py:98: in test_ge_validator_correctness\n    validator = ge(bound)\n                ^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nval = 0\n\n    def ge(val):\n        \"\"\"\n        A validator that raises `ValueError` if the initializer is called with a\n        number smaller than *val*.\n    \n        The validator uses `operator.ge` to compare the values.\n    \n        Args:\n            val: Inclusive lower bound for values\n    \n        .. versionadded:: 21.3.0\n        \"\"\"\n>       return _NumberValidator(\">=\", operator.ge)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       TypeError: _NumberValidator.__init__() missing 1 required positional argument: 'compare_func'\nE       Falsifying example: test_ge_validator_correctness(\nE           self=<tests.test_validators_pbt.TestComparisonValidatorProperties object at 0x104036390>,\nE           bound=0,\nE           value=0,\nE       )\n\nsrc/attr/validators.py:520: TypeError\n=========================== short test summary info ============================\nFAILED tests/test_validators_pbt.py::TestComparisonValidatorProperties::test_ge_validator_correctness\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 3 passed in 0.30s"
+    },
+    {
+      "name": "attr.validators.x_ge__mutmut_5",
+      "source_path": "src/attr/validators.py",
+      "status": "killed",
+      "seconds": 0.6219123749760911,
+      "detail": "...F\n=================================== FAILURES ===================================\n_______ TestComparisonValidatorProperties.test_ge_validator_correctness ________\n\nself = <tests.test_validators_pbt.TestComparisonValidatorProperties object at 0x107b4e5d0>\n\n    @given(st.integers(), st.integers())\n>   def test_ge_validator_correctness(self, bound, value):\n               ^^^^^^^\n\ntests/test_validators_pbt.py:94: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \ntests/test_validators_pbt.py:98: in test_ge_validator_correctness\n    validator = ge(bound)\n                ^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nval = 0\n\n    def ge(val):\n        \"\"\"\n        A validator that raises `ValueError` if the initializer is called with a\n        number smaller than *val*.\n    \n        The validator uses `operator.ge` to compare the values.\n    \n        Args:\n            val: Inclusive lower bound for values\n    \n        .. versionadded:: 21.3.0\n        \"\"\"\n>       return _NumberValidator(val, operator.ge)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       TypeError: _NumberValidator.__init__() missing 1 required positional argument: 'compare_func'\nE       Falsifying example: test_ge_validator_correctness(\nE           self=<tests.test_validators_pbt.TestComparisonValidatorProperties object at 0x107b4e5d0>,\nE           bound=0,\nE           value=0,\nE       )\n\nsrc/attr/validators.py:520: TypeError\n=========================== short test summary info ============================\nFAILED tests/test_validators_pbt.py::TestComparisonValidatorProperties::test_ge_validator_correctness\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 3 passed in 0.29s"
+    },
+    {
+      "name": "attr.validators.x_ge__mutmut_6",
+      "source_path": "src/attr/validators.py",
+      "status": "killed",
+      "seconds": 0.6123388330452144,
+      "detail": "...F\n=================================== FAILURES ===================================\n_______ TestComparisonValidatorProperties.test_ge_validator_correctness ________\n\nself = <tests.test_validators_pbt.TestComparisonValidatorProperties object at 0x1065ca6d0>\n\n    @given(st.integers(), st.integers())\n>   def test_ge_validator_correctness(self, bound, value):\n               ^^^^^^^\n\ntests/test_validators_pbt.py:94: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \ntests/test_validators_pbt.py:98: in test_ge_validator_correctness\n    validator = ge(bound)\n                ^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nval = 0\n\n    def ge(val):\n        \"\"\"\n        A validator that raises `ValueError` if the initializer is called with a\n        number smaller than *val*.\n    \n        The validator uses `operator.ge` to compare the values.\n    \n        Args:\n            val: Inclusive lower bound for values\n    \n        .. versionadded:: 21.3.0\n        \"\"\"\n>       return _NumberValidator(val, \">=\", )\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       TypeError: _NumberValidator.__init__() missing 1 required positional argument: 'compare_func'\nE       Falsifying example: test_ge_validator_correctness(\nE           self=<tests.test_validators_pbt.TestComparisonValidatorProperties object at 0x1065ca6d0>,\nE           bound=0,\nE           value=0,\nE       )\n\nsrc/attr/validators.py:520: TypeError\n=========================== short test summary info ============================\nFAILED tests/test_validators_pbt.py::TestComparisonValidatorProperties::test_ge_validator_correctness\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 3 passed in 0.30s"
+    },
+    {
+      "name": "attr.validators.x_ge__mutmut_7",
+      "source_path": "src/attr/validators.py",
+      "status": "survived",
+      "seconds": 4.074767875019461,
+      "detail": "........................................................                 [100%]\n56 passed in 3.75s"
+    },
+    {
+      "name": "attr.validators.x_gt__mutmut_1",
+      "source_path": "src/attr/validators.py",
+      "status": "killed",
+      "seconds": 5.028289832989685,
+      "detail": "..F\n=================================== FAILURES ===================================\n_______ TestComparisonValidatorProperties.test_gt_validator_correctness ________\n\nself = <tests.test_validators_pbt.TestComparisonValidatorProperties object at 0x1068519d0>\n\n    @given(st.integers(), st.integers())\n>   def test_gt_validator_correctness(self, bound, value):\n               ^^^^^^^\n\ntests/test_validators_pbt.py:75: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \ntests/test_validators_pbt.py:91: in test_gt_validator_correctness\n    C(value)\n<attrs generated methods tests.test_validators_pbt.TestComparisonValidatorProperties.test_gt_validator_correctness.<locals>.C>:25: in __init__\n    __attr_validator_x(self, __attr_x, self.x)\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <Validator for x > None>, inst = C(x=0)\nattr = Attribute(name='x', default=NOTHING, validator=<Validator for x > None>, repr=True, eq=True, eq_key=None, order=True, ...True, metadata=mappingproxy({}), type=None, converter=None, kw_only=False, inherited=False, on_setattr=None, alias='x')\nvalue = 0\n\n    def __call__(self, inst, attr, value):\n        \"\"\"\n        We use a callable class to be able to change the ``__repr__``.\n        \"\"\"\n>       if not self.compare_func(value, self.bound):\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       TypeError: '>' not supported between instances of 'int' and 'NoneType'\nE       Falsifying example: test_gt_validator_correctness(\nE           # The test always failed when commented parts were varied together.\nE           self=<tests.test_validators_pbt.TestComparisonValidatorProperties object at 0x1068519d0>,\nE           bound=0,  # or any other generated value\nE           value=0,  # or any other generated value\nE       )\n\nsrc/attr/validators.py:470: TypeError\n=========================== short test summary info ============================\nFAILED tests/test_validators_pbt.py::TestComparisonValidatorProperties::test_gt_validator_correctness\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 2 passed in 4.34s"
+    },
+    {
+      "name": "attr.validators.x_gt__mutmut_2",
+      "source_path": "src/attr/validators.py",
+      "status": "survived",
+      "seconds": 4.1049429579870775,
+      "detail": "........................................................                 [100%]\n56 passed in 3.77s"
+    },
+    {
+      "name": "attr.validators.x_gt__mutmut_3",
+      "source_path": "src/attr/validators.py",
+      "status": "killed",
+      "seconds": 4.996405709069222,
+      "detail": "..F\n=================================== FAILURES ===================================\n_______ TestComparisonValidatorProperties.test_gt_validator_correctness ________\n\nself = <tests.test_validators_pbt.TestComparisonValidatorProperties object at 0x103951ad0>\n\n    @given(st.integers(), st.integers())\n>   def test_gt_validator_correctness(self, bound, value):\n               ^^^^^^^\n\ntests/test_validators_pbt.py:75: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \ntests/test_validators_pbt.py:91: in test_gt_validator_correctness\n    C(value)\n<attrs generated methods tests.test_validators_pbt.TestComparisonValidatorProperties.test_gt_validator_correctness.<locals>.C>:25: in __init__\n    __attr_validator_x(self, __attr_x, self.x)\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <Validator for x > 0>, inst = C(x=0)\nattr = Attribute(name='x', default=NOTHING, validator=<Validator for x > 0>, repr=True, eq=True, eq_key=None, order=True, ord...True, metadata=mappingproxy({}), type=None, converter=None, kw_only=False, inherited=False, on_setattr=None, alias='x')\nvalue = 0\n\n    def __call__(self, inst, attr, value):\n        \"\"\"\n        We use a callable class to be able to change the ``__repr__``.\n        \"\"\"\n>       if not self.compare_func(value, self.bound):\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       TypeError: 'NoneType' object is not callable\nE       Falsifying example: test_gt_validator_correctness(\nE           # The test always failed when commented parts were varied together.\nE           self=<tests.test_validators_pbt.TestComparisonValidatorProperties object at 0x103951ad0>,\nE           bound=0,  # or any other generated value\nE           value=0,  # or any other generated value\nE       )\n\nsrc/attr/validators.py:470: TypeError\n=========================== short test summary info ============================\nFAILED tests/test_validators_pbt.py::TestComparisonValidatorProperties::test_gt_validator_correctness\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 2 passed in 4.30s"
+    },
+    {
+      "name": "attr.validators.x_gt__mutmut_4",
+      "source_path": "src/attr/validators.py",
+      "status": "killed",
+      "seconds": 0.5558618329232559,
+      "detail": "..F\n=================================== FAILURES ===================================\n_______ TestComparisonValidatorProperties.test_gt_validator_correctness ________\n\nself = <tests.test_validators_pbt.TestComparisonValidatorProperties object at 0x104075a10>\n\n    @given(st.integers(), st.integers())\n>   def test_gt_validator_correctness(self, bound, value):\n               ^^^^^^^\n\ntests/test_validators_pbt.py:75: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \ntests/test_validators_pbt.py:79: in test_gt_validator_correctness\n    validator = gt(bound)\n                ^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nval = 0\n\n    def gt(val):\n        \"\"\"\n        A validator that raises `ValueError` if the initializer is called with a\n        number smaller or equal to *val*.\n    \n        The validator uses `operator.gt` to compare the values.\n    \n        Args:\n           val: Exclusive lower bound for values\n    \n        .. versionadded:: 21.3.0\n        \"\"\"\n>       return _NumberValidator(\">\", operator.gt)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       TypeError: _NumberValidator.__init__() missing 1 required positional argument: 'compare_func'\nE       Falsifying example: test_gt_validator_correctness(\nE           self=<tests.test_validators_pbt.TestComparisonValidatorProperties object at 0x104075a10>,\nE           bound=0,\nE           value=0,\nE       )\n\nsrc/attr/validators.py:535: TypeError\n=========================== short test summary info ============================\nFAILED tests/test_validators_pbt.py::TestComparisonValidatorProperties::test_gt_validator_correctness\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 2 passed in 0.24s"
+    },
+    {
+      "name": "attr.validators.x_gt__mutmut_5",
+      "source_path": "src/attr/validators.py",
+      "status": "killed",
+      "seconds": 0.57660675002262,
+      "detail": "..F\n=================================== FAILURES ===================================\n_______ TestComparisonValidatorProperties.test_gt_validator_correctness ________\n\nself = <tests.test_validators_pbt.TestComparisonValidatorProperties object at 0x1054ada90>\n\n    @given(st.integers(), st.integers())\n>   def test_gt_validator_correctness(self, bound, value):\n               ^^^^^^^\n\ntests/test_validators_pbt.py:75: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \ntests/test_validators_pbt.py:79: in test_gt_validator_correctness\n    validator = gt(bound)\n                ^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nval = 0\n\n    def gt(val):\n        \"\"\"\n        A validator that raises `ValueError` if the initializer is called with a\n        number smaller or equal to *val*.\n    \n        The validator uses `operator.gt` to compare the values.\n    \n        Args:\n           val: Exclusive lower bound for values\n    \n        .. versionadded:: 21.3.0\n        \"\"\"\n>       return _NumberValidator(val, operator.gt)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       TypeError: _NumberValidator.__init__() missing 1 required positional argument: 'compare_func'\nE       Falsifying example: test_gt_validator_correctness(\nE           self=<tests.test_validators_pbt.TestComparisonValidatorProperties object at 0x1054ada90>,\nE           bound=0,\nE           value=0,\nE       )\n\nsrc/attr/validators.py:535: TypeError\n=========================== short test summary info ============================\nFAILED tests/test_validators_pbt.py::TestComparisonValidatorProperties::test_gt_validator_correctness\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 2 passed in 0.25s"
+    },
+    {
+      "name": "attr.validators.x_gt__mutmut_6",
+      "source_path": "src/attr/validators.py",
+      "status": "killed",
+      "seconds": 0.5500933749135584,
+      "detail": "..F\n=================================== FAILURES ===================================\n_______ TestComparisonValidatorProperties.test_gt_validator_correctness ________\n\nself = <tests.test_validators_pbt.TestComparisonValidatorProperties object at 0x105155f50>\n\n    @given(st.integers(), st.integers())\n>   def test_gt_validator_correctness(self, bound, value):\n               ^^^^^^^\n\ntests/test_validators_pbt.py:75: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \ntests/test_validators_pbt.py:79: in test_gt_validator_correctness\n    validator = gt(bound)\n                ^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nval = 0\n\n    def gt(val):\n        \"\"\"\n        A validator that raises `ValueError` if the initializer is called with a\n        number smaller or equal to *val*.\n    \n        The validator uses `operator.gt` to compare the values.\n    \n        Args:\n           val: Exclusive lower bound for values\n    \n        .. versionadded:: 21.3.0\n        \"\"\"\n>       return _NumberValidator(val, \">\", )\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       TypeError: _NumberValidator.__init__() missing 1 required positional argument: 'compare_func'\nE       Falsifying example: test_gt_validator_correctness(\nE           self=<tests.test_validators_pbt.TestComparisonValidatorProperties object at 0x105155f50>,\nE           bound=0,\nE           value=0,\nE       )\n\nsrc/attr/validators.py:535: TypeError\n=========================== short test summary info ============================\nFAILED tests/test_validators_pbt.py::TestComparisonValidatorProperties::test_gt_validator_correctness\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 2 passed in 0.22s"
+    },
+    {
+      "name": "attr.validators.x_gt__mutmut_7",
+      "source_path": "src/attr/validators.py",
+      "status": "survived",
+      "seconds": 4.555801167036407,
+      "detail": "........................................................                 [100%]\n56 passed in 4.20s"
+    },
+    {
+      "name": "attr.validators.x_instance_of__mutmut_1",
+      "source_path": "src/attr/validators.py",
+      "status": "killed",
+      "seconds": 3.084326250012964,
+      "detail": ".............F\n=================================== FAILURES ===================================\n_________________ TestInstanceOfValidator.test_instance_of_int _________________\n\nself = <tests.test_validators_pbt.TestInstanceOfValidator object at 0x103659590>\n\n    @given(st.integers())\n>   def test_instance_of_int(self, value):\n               ^^^^^^^\n\ntests/test_validators_pbt.py:306: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \ntests/test_validators_pbt.py:316: in test_instance_of_int\n    C(value)\n<attrs generated methods tests.test_validators_pbt.TestInstanceOfValidator.test_instance_of_int.<locals>.C>:25: in __init__\n    __attr_validator_x(self, __attr_x, self.x)\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <instance_of validator for type None>, inst = C(x=0)\nattr = Attribute(name='x', default=NOTHING, validator=<instance_of validator for type None>, repr=True, eq=True, eq_key=None,...True, metadata=mappingproxy({}), type=None, converter=None, kw_only=False, inherited=False, on_setattr=None, alias='x')\nvalue = 0\n\n    def __call__(self, inst, attr, value):\n        \"\"\"\n        We use a callable class to be able to change the ``__repr__``.\n        \"\"\"\n>       if not isinstance(value, self.type):\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       TypeError: isinstance() arg 2 must be a type, a tuple of types, or a union\nE       Falsifying example: test_instance_of_int(\nE           self=<tests.test_validators_pbt.TestInstanceOfValidator object at 0x103659590>,\nE           value=0,  # or any other generated value\nE       )\n\nsrc/attr/validators.py:100: TypeError\n=========================== short test summary info ============================\nFAILED tests/test_validators_pbt.py::TestInstanceOfValidator::test_instance_of_int\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 13 passed in 2.63s"
+    },
+    {
+      "name": "attr.validators.x_le__mutmut_1",
+      "source_path": "src/attr/validators.py",
+      "status": "killed",
+      "seconds": 5.49708720901981,
+      "detail": ".F\n=================================== FAILURES ===================================\n_______ TestComparisonValidatorProperties.test_le_validator_correctness ________\n\nself = <tests.test_validators_pbt.TestComparisonValidatorProperties object at 0x10384dad0>\n\n    @given(st.integers(), st.integers())\n>   def test_le_validator_correctness(self, bound, value):\n               ^^^^^^^\n\ntests/test_validators_pbt.py:56: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \ntests/test_validators_pbt.py:68: in test_le_validator_correctness\n    C(value)\n<attrs generated methods tests.test_validators_pbt.TestComparisonValidatorProperties.test_le_validator_correctness.<locals>.C>:25: in __init__\n    __attr_validator_x(self, __attr_x, self.x)\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <Validator for x <= None>, inst = C(x=0)\nattr = Attribute(name='x', default=NOTHING, validator=<Validator for x <= None>, repr=True, eq=True, eq_key=None, order=True,...True, metadata=mappingproxy({}), type=None, converter=None, kw_only=False, inherited=False, on_setattr=None, alias='x')\nvalue = 0\n\n    def __call__(self, inst, attr, value):\n        \"\"\"\n        We use a callable class to be able to change the ``__repr__``.\n        \"\"\"\n>       if not self.compare_func(value, self.bound):\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       TypeError: '<=' not supported between instances of 'int' and 'NoneType'\nE       Falsifying example: test_le_validator_correctness(\nE           # The test always failed when commented parts were varied together.\nE           self=<tests.test_validators_pbt.TestComparisonValidatorProperties object at 0x10384dad0>,\nE           bound=0,  # or any other generated value\nE           value=0,  # or any other generated value\nE       )\n\nsrc/attr/validators.py:470: TypeError\n=========================== short test summary info ============================\nFAILED tests/test_validators_pbt.py::TestComparisonValidatorProperties::test_le_validator_correctness\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 1 passed in 4.70s"
+    },
+    {
+      "name": "attr.validators.x_le__mutmut_2",
+      "source_path": "src/attr/validators.py",
+      "status": "survived",
+      "seconds": 4.1201160829514265,
+      "detail": "........................................................                 [100%]\n56 passed in 3.78s"
+    },
+    {
+      "name": "attr.validators.x_le__mutmut_3",
+      "source_path": "src/attr/validators.py",
+      "status": "killed",
+      "seconds": 4.688092291005887,
+      "detail": ".F\n=================================== FAILURES ===================================\n_______ TestComparisonValidatorProperties.test_le_validator_correctness ________\n\nself = <tests.test_validators_pbt.TestComparisonValidatorProperties object at 0x1066c5b10>\n\n    @given(st.integers(), st.integers())\n>   def test_le_validator_correctness(self, bound, value):\n               ^^^^^^^\n\ntests/test_validators_pbt.py:56: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \ntests/test_validators_pbt.py:68: in test_le_validator_correctness\n    C(value)\n<attrs generated methods tests.test_validators_pbt.TestComparisonValidatorProperties.test_le_validator_correctness.<locals>.C>:25: in __init__\n    __attr_validator_x(self, __attr_x, self.x)\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <Validator for x <= 0>, inst = C(x=0)\nattr = Attribute(name='x', default=NOTHING, validator=<Validator for x <= 0>, repr=True, eq=True, eq_key=None, order=True, or...True, metadata=mappingproxy({}), type=None, converter=None, kw_only=False, inherited=False, on_setattr=None, alias='x')\nvalue = 0\n\n    def __call__(self, inst, attr, value):\n        \"\"\"\n        We use a callable class to be able to change the ``__repr__``.\n        \"\"\"\n>       if not self.compare_func(value, self.bound):\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       TypeError: 'NoneType' object is not callable\nE       Falsifying example: test_le_validator_correctness(\nE           # The test always failed when commented parts were varied together.\nE           self=<tests.test_validators_pbt.TestComparisonValidatorProperties object at 0x1066c5b10>,\nE           bound=0,  # or any other generated value\nE           value=0,  # or any other generated value\nE       )\n\nsrc/attr/validators.py:470: TypeError\n=========================== short test summary info ============================\nFAILED tests/test_validators_pbt.py::TestComparisonValidatorProperties::test_le_validator_correctness\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 1 passed in 4.05s"
+    },
+    {
+      "name": "attr.validators.x_le__mutmut_4",
+      "source_path": "src/attr/validators.py",
+      "status": "killed",
+      "seconds": 0.5080931669799611,
+      "detail": ".F\n=================================== FAILURES ===================================\n_______ TestComparisonValidatorProperties.test_le_validator_correctness ________\n\nself = <tests.test_validators_pbt.TestComparisonValidatorProperties object at 0x102a313d0>\n\n    @given(st.integers(), st.integers())\n>   def test_le_validator_correctness(self, bound, value):\n               ^^^^^^^\n\ntests/test_validators_pbt.py:56: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \ntests/test_validators_pbt.py:60: in test_le_validator_correctness\n    validator = le(bound)\n                ^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nval = 0\n\n    def le(val):\n        \"\"\"\n        A validator that raises `ValueError` if the initializer is called with a\n        number greater than *val*.\n    \n        The validator uses `operator.le` to compare the values.\n    \n        Args:\n            val: Inclusive upper bound for values.\n    \n        .. versionadded:: 21.3.0\n        \"\"\"\n>       return _NumberValidator(\"<=\", operator.le)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       TypeError: _NumberValidator.__init__() missing 1 required positional argument: 'compare_func'\nE       Falsifying example: test_le_validator_correctness(\nE           self=<tests.test_validators_pbt.TestComparisonValidatorProperties object at 0x102a313d0>,\nE           bound=0,\nE           value=0,\nE       )\n\nsrc/attr/validators.py:505: TypeError\n=========================== short test summary info ============================\nFAILED tests/test_validators_pbt.py::TestComparisonValidatorProperties::test_le_validator_correctness\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 1 passed in 0.17s"
+    },
+    {
+      "name": "attr.validators.x_le__mutmut_5",
+      "source_path": "src/attr/validators.py",
+      "status": "killed",
+      "seconds": 0.49572400003671646,
+      "detail": ".F\n=================================== FAILURES ===================================\n_______ TestComparisonValidatorProperties.test_le_validator_correctness ________\n\nself = <tests.test_validators_pbt.TestComparisonValidatorProperties object at 0x106159410>\n\n    @given(st.integers(), st.integers())\n>   def test_le_validator_correctness(self, bound, value):\n               ^^^^^^^\n\ntests/test_validators_pbt.py:56: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \ntests/test_validators_pbt.py:60: in test_le_validator_correctness\n    validator = le(bound)\n                ^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nval = 0\n\n    def le(val):\n        \"\"\"\n        A validator that raises `ValueError` if the initializer is called with a\n        number greater than *val*.\n    \n        The validator uses `operator.le` to compare the values.\n    \n        Args:\n            val: Inclusive upper bound for values.\n    \n        .. versionadded:: 21.3.0\n        \"\"\"\n>       return _NumberValidator(val, operator.le)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       TypeError: _NumberValidator.__init__() missing 1 required positional argument: 'compare_func'\nE       Falsifying example: test_le_validator_correctness(\nE           self=<tests.test_validators_pbt.TestComparisonValidatorProperties object at 0x106159410>,\nE           bound=0,\nE           value=0,\nE       )\n\nsrc/attr/validators.py:505: TypeError\n=========================== short test summary info ============================\nFAILED tests/test_validators_pbt.py::TestComparisonValidatorProperties::test_le_validator_correctness\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 1 passed in 0.17s"
+    },
+    {
+      "name": "attr.validators.x_le__mutmut_6",
+      "source_path": "src/attr/validators.py",
+      "status": "killed",
+      "seconds": 0.5253711669938639,
+      "detail": ".F\n=================================== FAILURES ===================================\n_______ TestComparisonValidatorProperties.test_le_validator_correctness ________\n\nself = <tests.test_validators_pbt.TestComparisonValidatorProperties object at 0x102d4d990>\n\n    @given(st.integers(), st.integers())\n>   def test_le_validator_correctness(self, bound, value):\n               ^^^^^^^\n\ntests/test_validators_pbt.py:56: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \ntests/test_validators_pbt.py:60: in test_le_validator_correctness\n    validator = le(bound)\n                ^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nval = 0\n\n    def le(val):\n        \"\"\"\n        A validator that raises `ValueError` if the initializer is called with a\n        number greater than *val*.\n    \n        The validator uses `operator.le` to compare the values.\n    \n        Args:\n            val: Inclusive upper bound for values.\n    \n        .. versionadded:: 21.3.0\n        \"\"\"\n>       return _NumberValidator(val, \"<=\", )\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       TypeError: _NumberValidator.__init__() missing 1 required positional argument: 'compare_func'\nE       Falsifying example: test_le_validator_correctness(\nE           self=<tests.test_validators_pbt.TestComparisonValidatorProperties object at 0x102d4d990>,\nE           bound=0,\nE           value=0,\nE       )\n\nsrc/attr/validators.py:505: TypeError\n=========================== short test summary info ============================\nFAILED tests/test_validators_pbt.py::TestComparisonValidatorProperties::test_le_validator_correctness\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 1 passed in 0.17s"
+    },
+    {
+      "name": "attr.validators.x_le__mutmut_7",
+      "source_path": "src/attr/validators.py",
+      "status": "survived",
+      "seconds": 4.28741379105486,
+      "detail": "........................................................                 [100%]\n56 passed in 3.95s"
+    },
+    {
+      "name": "attr.validators.x_lt__mutmut_1",
+      "source_path": "src/attr/validators.py",
+      "status": "killed",
+      "seconds": 5.137656416976824,
+      "detail": "F\n=================================== FAILURES ===================================\n_______ TestComparisonValidatorProperties.test_lt_validator_correctness ________\n\nself = <tests.test_validators_pbt.TestComparisonValidatorProperties object at 0x105149ed0>\n\n    @given(st.integers(), st.integers())\n>   def test_lt_validator_correctness(self, bound, value):\n               ^^^^^^^\n\ntests/test_validators_pbt.py:37: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \ntests/test_validators_pbt.py:53: in test_lt_validator_correctness\n    C(value)\n<attrs generated methods tests.test_validators_pbt.TestComparisonValidatorProperties.test_lt_validator_correctness.<locals>.C>:25: in __init__\n    __attr_validator_x(self, __attr_x, self.x)\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <Validator for x < None>, inst = C(x=0)\nattr = Attribute(name='x', default=NOTHING, validator=<Validator for x < None>, repr=True, eq=True, eq_key=None, order=True, ...True, metadata=mappingproxy({}), type=None, converter=None, kw_only=False, inherited=False, on_setattr=None, alias='x')\nvalue = 0\n\n    def __call__(self, inst, attr, value):\n        \"\"\"\n        We use a callable class to be able to change the ``__repr__``.\n        \"\"\"\n>       if not self.compare_func(value, self.bound):\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       TypeError: '<' not supported between instances of 'int' and 'NoneType'\nE       Falsifying example: test_lt_validator_correctness(\nE           # The test always failed when commented parts were varied together.\nE           self=<tests.test_validators_pbt.TestComparisonValidatorProperties object at 0x105149ed0>,\nE           bound=0,  # or any other generated value\nE           value=0,  # or any other generated value\nE       )\n\nsrc/attr/validators.py:470: TypeError\n=========================== short test summary info ============================\nFAILED tests/test_validators_pbt.py::TestComparisonValidatorProperties::test_lt_validator_correctness\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed in 4.47s"
+    },
+    {
+      "name": "attr.validators.x_lt__mutmut_2",
+      "source_path": "src/attr/validators.py",
+      "status": "survived",
+      "seconds": 4.124132208060473,
+      "detail": "........................................................                 [100%]\n56 passed in 3.78s"
+    },
+    {
+      "name": "attr.validators.x_lt__mutmut_3",
+      "source_path": "src/attr/validators.py",
+      "status": "killed",
+      "seconds": 4.9944090420613065,
+      "detail": "F\n=================================== FAILURES ===================================\n_______ TestComparisonValidatorProperties.test_lt_validator_correctness ________\n\nself = <tests.test_validators_pbt.TestComparisonValidatorProperties object at 0x104738a10>\n\n    @given(st.integers(), st.integers())\n>   def test_lt_validator_correctness(self, bound, value):\n               ^^^^^^^\n\ntests/test_validators_pbt.py:37: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \ntests/test_validators_pbt.py:53: in test_lt_validator_correctness\n    C(value)\n<attrs generated methods tests.test_validators_pbt.TestComparisonValidatorProperties.test_lt_validator_correctness.<locals>.C>:25: in __init__\n    __attr_validator_x(self, __attr_x, self.x)\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <Validator for x < 0>, inst = C(x=0)\nattr = Attribute(name='x', default=NOTHING, validator=<Validator for x < 0>, repr=True, eq=True, eq_key=None, order=True, ord...True, metadata=mappingproxy({}), type=None, converter=None, kw_only=False, inherited=False, on_setattr=None, alias='x')\nvalue = 0\n\n    def __call__(self, inst, attr, value):\n        \"\"\"\n        We use a callable class to be able to change the ``__repr__``.\n        \"\"\"\n>       if not self.compare_func(value, self.bound):\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       TypeError: 'NoneType' object is not callable\nE       Falsifying example: test_lt_validator_correctness(\nE           # The test always failed when commented parts were varied together.\nE           self=<tests.test_validators_pbt.TestComparisonValidatorProperties object at 0x104738a10>,\nE           bound=0,  # or any other generated value\nE           value=0,  # or any other generated value\nE       )\n\nsrc/attr/validators.py:470: TypeError\n=========================== short test summary info ============================\nFAILED tests/test_validators_pbt.py::TestComparisonValidatorProperties::test_lt_validator_correctness\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed in 4.31s"
+    },
+    {
+      "name": "attr.validators.x_lt__mutmut_4",
+      "source_path": "src/attr/validators.py",
+      "status": "killed",
+      "seconds": 0.4312505830312148,
+      "detail": "F\n=================================== FAILURES ===================================\n_______ TestComparisonValidatorProperties.test_lt_validator_correctness ________\n\nself = <tests.test_validators_pbt.TestComparisonValidatorProperties object at 0x102b3cbd0>\n\n    @given(st.integers(), st.integers())\n>   def test_lt_validator_correctness(self, bound, value):\n               ^^^^^^^\n\ntests/test_validators_pbt.py:37: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \ntests/test_validators_pbt.py:41: in test_lt_validator_correctness\n    validator = lt(bound)\n                ^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nval = 0\n\n    def lt(val):\n        \"\"\"\n        A validator that raises `ValueError` if the initializer is called with a\n        number larger or equal to *val*.\n    \n        The validator uses `operator.lt` to compare the values.\n    \n        Args:\n            val: Exclusive upper bound for values.\n    \n        .. versionadded:: 21.3.0\n        \"\"\"\n>       return _NumberValidator(\"<\", operator.lt)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       TypeError: _NumberValidator.__init__() missing 1 required positional argument: 'compare_func'\nE       Falsifying example: test_lt_validator_correctness(\nE           self=<tests.test_validators_pbt.TestComparisonValidatorProperties object at 0x102b3cbd0>,\nE           bound=0,\nE           value=0,\nE       )\n\nsrc/attr/validators.py:490: TypeError\n=========================== short test summary info ============================\nFAILED tests/test_validators_pbt.py::TestComparisonValidatorProperties::test_lt_validator_correctness\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed in 0.10s"
+    },
+    {
+      "name": "attr.validators.x_lt__mutmut_5",
+      "source_path": "src/attr/validators.py",
+      "status": "killed",
+      "seconds": 0.42849029100034386,
+      "detail": "F\n=================================== FAILURES ===================================\n_______ TestComparisonValidatorProperties.test_lt_validator_correctness ________\n\nself = <tests.test_validators_pbt.TestComparisonValidatorProperties object at 0x106750ed0>\n\n    @given(st.integers(), st.integers())\n>   def test_lt_validator_correctness(self, bound, value):\n               ^^^^^^^\n\ntests/test_validators_pbt.py:37: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \ntests/test_validators_pbt.py:41: in test_lt_validator_correctness\n    validator = lt(bound)\n                ^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nval = 0\n\n    def lt(val):\n        \"\"\"\n        A validator that raises `ValueError` if the initializer is called with a\n        number larger or equal to *val*.\n    \n        The validator uses `operator.lt` to compare the values.\n    \n        Args:\n            val: Exclusive upper bound for values.\n    \n        .. versionadded:: 21.3.0\n        \"\"\"\n>       return _NumberValidator(val, operator.lt)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       TypeError: _NumberValidator.__init__() missing 1 required positional argument: 'compare_func'\nE       Falsifying example: test_lt_validator_correctness(\nE           self=<tests.test_validators_pbt.TestComparisonValidatorProperties object at 0x106750ed0>,\nE           bound=0,\nE           value=0,\nE       )\n\nsrc/attr/validators.py:490: TypeError\n=========================== short test summary info ============================\nFAILED tests/test_validators_pbt.py::TestComparisonValidatorProperties::test_lt_validator_correctness\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed in 0.10s"
+    },
+    {
+      "name": "attr.validators.x_lt__mutmut_6",
+      "source_path": "src/attr/validators.py",
+      "status": "killed",
+      "seconds": 0.41534654097631574,
+      "detail": "F\n=================================== FAILURES ===================================\n_______ TestComparisonValidatorProperties.test_lt_validator_correctness ________\n\nself = <tests.test_validators_pbt.TestComparisonValidatorProperties object at 0x10510ca10>\n\n    @given(st.integers(), st.integers())\n>   def test_lt_validator_correctness(self, bound, value):\n               ^^^^^^^\n\ntests/test_validators_pbt.py:37: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \ntests/test_validators_pbt.py:41: in test_lt_validator_correctness\n    validator = lt(bound)\n                ^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nval = 0\n\n    def lt(val):\n        \"\"\"\n        A validator that raises `ValueError` if the initializer is called with a\n        number larger or equal to *val*.\n    \n        The validator uses `operator.lt` to compare the values.\n    \n        Args:\n            val: Exclusive upper bound for values.\n    \n        .. versionadded:: 21.3.0\n        \"\"\"\n>       return _NumberValidator(val, \"<\", )\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       TypeError: _NumberValidator.__init__() missing 1 required positional argument: 'compare_func'\nE       Falsifying example: test_lt_validator_correctness(\nE           self=<tests.test_validators_pbt.TestComparisonValidatorProperties object at 0x10510ca10>,\nE           bound=0,\nE           value=0,\nE       )\n\nsrc/attr/validators.py:490: TypeError\n=========================== short test summary info ============================\nFAILED tests/test_validators_pbt.py::TestComparisonValidatorProperties::test_lt_validator_correctness\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed in 0.10s"
+    },
+    {
+      "name": "attr.validators.x_lt__mutmut_7",
+      "source_path": "src/attr/validators.py",
+      "status": "survived",
+      "seconds": 4.081634458038025,
+      "detail": "........................................................                 [100%]\n56 passed in 3.75s"
+    },
+    {
+      "name": "attr.validators.x_matches_re__mutmut_1",
+      "source_path": "src/attr/validators.py",
+      "status": "survived",
+      "seconds": 4.573174457997084,
+      "detail": "........................................................                 [100%]\n56 passed in 4.18s"
+    },
+    {
+      "name": "attr.validators.x_matches_re__mutmut_10",
+      "source_path": "src/attr/validators.py",
+      "status": "survived",
+      "seconds": 4.06703541695606,
+      "detail": "........................................................                 [100%]\n56 passed in 3.73s"
+    },
+    {
+      "name": "attr.validators.x_matches_re__mutmut_11",
+      "source_path": "src/attr/validators.py",
+      "status": "survived",
+      "seconds": 4.140778832952492,
+      "detail": "........................................................                 [100%]\n56 passed in 3.81s"
+    },
+    {
+      "name": "attr.validators.x_matches_re__mutmut_12",
+      "source_path": "src/attr/validators.py",
+      "status": "survived",
+      "seconds": 4.108599083032459,
+      "detail": "........................................................                 [100%]\n56 passed in 3.76s"
+    },
+    {
+      "name": "attr.validators.x_matches_re__mutmut_13",
+      "source_path": "src/attr/validators.py",
+      "status": "survived",
+      "seconds": 4.226600582944229,
+      "detail": "........................................................                 [100%]\n56 passed in 3.86s"
+    },
+    {
+      "name": "attr.validators.x_matches_re__mutmut_14",
+      "source_path": "src/attr/validators.py",
+      "status": "survived",
+      "seconds": 4.413460916955955,
+      "detail": "........................................................                 [100%]\n56 passed in 4.03s"
+    },
+    {
+      "name": "attr.validators.x_matches_re__mutmut_15",
+      "source_path": "src/attr/validators.py",
+      "status": "survived",
+      "seconds": 4.893017875030637,
+      "detail": "........................................................                 [100%]\n56 passed in 4.46s"
+    },
+    {
+      "name": "attr.validators.x_matches_re__mutmut_16",
+      "source_path": "src/attr/validators.py",
+      "status": "survived",
+      "seconds": 5.866274082916789,
+      "detail": "........................................................                 [100%]\n56 passed in 5.44s"
+    },
+    {
+      "name": "attr.validators.x_matches_re__mutmut_17",
+      "source_path": "src/attr/validators.py",
+      "status": "survived",
+      "seconds": 7.015731375082396,
+      "detail": "........................................................                 [100%]\n56 passed in 6.53s"
+    },
+    {
+      "name": "attr.validators.x_matches_re__mutmut_18",
+      "source_path": "src/attr/validators.py",
+      "status": "survived",
+      "seconds": 6.1126852500019595,
+      "detail": "........................................................                 [100%]\n56 passed in 5.37s"
+    },
+    {
+      "name": "attr.validators.x_max_len__mutmut_1",
+      "source_path": "src/attr/validators.py",
+      "status": "killed",
+      "seconds": 5.903024874976836,
+      "detail": ".......F\n=================================== FAILURES ===================================\n____________ TestLengthValidatorProperties.test_max_len_correctness ____________\n\nself = <tests.test_validators_pbt.TestLengthValidatorProperties object at 0x10994f190>\n\n    @given(st.integers(min_value=0, max_value=100), st.lists(st.integers()))\n>   def test_max_len_correctness(self, max_length, lst):\n               ^^^^^^^\n\ntests/test_validators_pbt.py:190: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \ntests/test_validators_pbt.py:201: in test_max_len_correctness\n    C(lst)\n<attrs generated methods tests.test_validators_pbt.TestLengthValidatorProperties.test_max_len_correctness.<locals>.C>:25: in __init__\n    __attr_validator_x(self, __attr_x, self.x)\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <max_len validator for None>, inst = C(x=[])\nattr = Attribute(name='x', default=NOTHING, validator=<max_len validator for None>, repr=True, eq=True, eq_key=None, order=Tr...True, metadata=mappingproxy({}), type=None, converter=None, kw_only=False, inherited=False, on_setattr=None, alias='x')\nvalue = []\n\n    def __call__(self, inst, attr, value):\n        \"\"\"\n        We use a callable class to be able to change the ``__repr__``.\n        \"\"\"\n>       if len(value) > self.max_length:\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       TypeError: '>' not supported between instances of 'int' and 'NoneType'\nE       Falsifying example: test_max_len_correctness(\nE           # The test always failed when commented parts were varied together.\nE           self=<tests.test_validators_pbt.TestLengthValidatorProperties object at 0x10994f190>,\nE           max_length=0,  # or any other generated value\nE           lst=[],  # or any other generated value\nE       )\n\nsrc/attr/validators.py:546: TypeError\n=========================== short test summary info ============================\nFAILED tests/test_validators_pbt.py::TestLengthValidatorProperties::test_max_len_correctness\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 7 passed in 5.14s"
+    },
+    {
+      "name": "attr.validators.x_min_len__mutmut_1",
+      "source_path": "src/attr/validators.py",
+      "status": "killed",
+      "seconds": 4.8272049580700696,
+      "detail": "......F\n=================================== FAILURES ===================================\n____________ TestLengthValidatorProperties.test_min_len_correctness ____________\n\nself = <tests.test_validators_pbt.TestLengthValidatorProperties object at 0x1054170d0>\n\n    @given(st.integers(min_value=0, max_value=100), st.lists(st.integers()))\n>   def test_min_len_correctness(self, min_length, lst):\n               ^^^^^^^\n\ntests/test_validators_pbt.py:173: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \ntests/test_validators_pbt.py:184: in test_min_len_correctness\n    C(lst)\n<attrs generated methods tests.test_validators_pbt.TestLengthValidatorProperties.test_min_len_correctness.<locals>.C>:25: in __init__\n    __attr_validator_x(self, __attr_x, self.x)\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <min_len validator for None>, inst = C(x=[])\nattr = Attribute(name='x', default=NOTHING, validator=<min_len validator for None>, repr=True, eq=True, eq_key=None, order=Tr...True, metadata=mappingproxy({}), type=None, converter=None, kw_only=False, inherited=False, on_setattr=None, alias='x')\nvalue = []\n\n    def __call__(self, inst, attr, value):\n        \"\"\"\n        We use a callable class to be able to change the ``__repr__``.\n        \"\"\"\n>       if len(value) < self.min_length:\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       TypeError: '<' not supported between instances of 'int' and 'NoneType'\nE       Falsifying example: test_min_len_correctness(\nE           # The test always failed when commented parts were varied together.\nE           self=<tests.test_validators_pbt.TestLengthValidatorProperties object at 0x1054170d0>,\nE           min_length=0,  # or any other generated value\nE           lst=[],  # or any other generated value\nE       )\n\nsrc/attr/validators.py:575: TypeError\n=========================== short test summary info ============================\nFAILED tests/test_validators_pbt.py::TestLengthValidatorProperties::test_min_len_correctness\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 6 passed in 4.19s"
+    },
+    {
+      "name": "attr.validators.x_optional__mutmut_1",
+      "source_path": "src/attr/validators.py",
+      "status": "survived",
+      "seconds": 6.209601208101958,
+      "detail": "........................................................                 [100%]\n56 passed in 5.69s"
+    },
+    {
+      "name": "attr.validators.x_optional__mutmut_2",
+      "source_path": "src/attr/validators.py",
+      "status": "survived",
+      "seconds": 4.901305416948162,
+      "detail": "........................................................                 [100%]\n56 passed in 4.47s"
+    },
+    {
+      "name": "attr.validators.x_optional__mutmut_3",
+      "source_path": "src/attr/validators.py",
+      "status": "killed",
+      "seconds": 0.5199324591085315,
+      "detail": "ImportError while loading conftest '/Users/thanhtoantnt/ccode/pbt-benchmark/attrs/tests/conftest.py'.\ntests/conftest.py:9: in <module>\n    from attr._compat import PY_3_10_PLUS, PY_3_14_PLUS\nsrc/attr/__init__.py:10: in <module>\n    from . import converters, exceptions, filters, setters, validators\nsrc/attr/validators.py:635: in <module>\n    class _NotValidator:\nsrc/attr/validators.py:644: in _NotValidator\n    validator=deep_iterable(\nsrc/attr/validators.py:384: in deep_iterable\n    return _DeepIterable(member_validator, iterable_validator)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nsrc/attr/validators.py:208: in __call__\n    self.validator(inst, attr, value)\nE   TypeError: 'NoneType' object is not callable"
+    }
+  ]
+}
