@@ -20,3 +20,8 @@ attrs.docset
 attrs.tgz
 Justfile
 t.py
+
+# Mutation testing artifacts
+mutants/
+*.meta
+*.orig
